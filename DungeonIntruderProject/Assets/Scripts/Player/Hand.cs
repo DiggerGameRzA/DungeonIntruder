@@ -5,13 +5,18 @@ using UnityEngine;
 public class Hand : MonoBehaviour
 {
     InputManager inputManager;
+    private Player player;
     private void Start()
     {
         inputManager = FindObjectOfType<InputManager>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
     void Update()
     {
-        transform.rotation = Quaternion.Euler(0, 0, inputManager.GetMousePosition(transform));
+        if (player.State == PlayerState.Combat)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, inputManager.GetMousePosition(transform));
+        }
     }
     public void FlipGun(bool flip)
     {

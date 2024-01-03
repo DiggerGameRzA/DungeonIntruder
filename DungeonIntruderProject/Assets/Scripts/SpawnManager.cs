@@ -19,6 +19,7 @@ public class SpawnManager : MonoBehaviour
     }
     void SpawnAndRandomMod(GameObject gun, Vector3 pos)
     {
+        if (pos == null) return;
         GameObject go = Instantiate(gun, pos, Quaternion.identity);
         Modifier gunMod = go.GetComponent<IGunStats>().ModifierInfo;
         gunMod.name = mods[Random.Range(0, mods.Length)].name;

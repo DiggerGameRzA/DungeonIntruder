@@ -9,7 +9,13 @@ public class GunInventory : Singleton<GunInventory>
     int slotIndex = 2;
     private void Start()
     {
-        for (int i = 0; i < slotIndex; i++)
+        if (gSlots.Count != 0)
+        {
+            currentSlot = 0;
+            WeaponManager.instance.currentGun = gSlots[currentSlot];
+            ShowGun(WeaponManager.instance.currentGun.Name);
+        }
+        for (int i = 0; i < gSlots.Count - slotIndex; i++)
             gSlots.Add(null);
     }
     public void AddWeapon(IInventoryItem item)
@@ -19,7 +25,7 @@ public class GunInventory : Singleton<GunInventory>
         currentSlot = empty;
 
         WeaponManager.instance.currentGun = item.GetIGunStats();
-        ShowGun(item.Name);
+        ShowGun(WeaponManager.instance.currentGun.Name);
         FindObjectOfType<UIManager>().PickUpText(item);
         item.OnPickUp();
     }
@@ -34,7 +40,7 @@ public class GunInventory : Singleton<GunInventory>
     }
     public void ShowGun(string name)
     {
-        IPlayer player = FindObjectOfType<Player>();
+        Player player = FindObjectOfType<Player>();
         Transform guns = player.GetTransform().GetChild(1).GetChild(0);
         foreach (Transform i in guns)
         {

@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class PlayerMovement
 {
-    IPlayer player;
+    Player player;
     Stats stats;
     CharacterController controller;
     Transform transform;
-    public PlayerMovement(IPlayer player)
+    public PlayerMovement(Player player)
     {
         this.player = player;
         controller = player.GetController();
@@ -24,7 +24,7 @@ public class PlayerMovement
     {
         if (GetMovementDir().normalized != Vector2.zero)
         {
-            InputManager.instance.canMove = false;
+            InputManager.instance.SetCanMove(false);
             InputManager.instance.tempEvadeTime = stats.evadeCooldown;
 
             Vector3 startPos = transform.position;
@@ -34,7 +34,7 @@ public class PlayerMovement
                 controller.Move(GetMovementDir().normalized * stats.evadeSpeed * Time.deltaTime);
                 yield return null;
             }
-            InputManager.instance.canMove = true;
+            InputManager.instance.SetCanMove(true);
         }
     }
     public Vector2 GetMovementDir()

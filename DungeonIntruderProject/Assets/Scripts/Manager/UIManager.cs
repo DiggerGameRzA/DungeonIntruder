@@ -12,7 +12,7 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         player = FindObjectOfType<Player>().GetComponent<IPlayer>();
-        ammoText.text = FindObjectOfType<Player>().GetComponent<Stats>().currentAmmo.ToString();
+        // ammoText.text = FindObjectOfType<Player>().GetComponent<Stats>().currentAmmo.ToString();
     }
 
     void Update()
@@ -21,7 +21,7 @@ public class UIManager : MonoBehaviour
     }
     public void UpdateAmmo()
     {
-        ammoText.text = player.GetStats().currentAmmo.ToString();
+        // ammoText.text = player.GetStats().currentAmmo.ToString();
     }
     public void PickUpText(IInventoryItem item)
     {

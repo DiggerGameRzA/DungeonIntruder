@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class InputManager : Singleton<InputManager>
 {
-    IPlayer player;
+    Player player;
     Hand hand;
 
-    public bool canEvade = false;
-    public bool canMove = true;
+    [SerializeField] public bool canEvade;
+    [SerializeField] public bool canMove;
 
     [SerializeField] float tempFireTime = 0;
     public float tempEvadeTime = 0f;
     float mouseRotZ = 0;
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<IPlayer>();
+        canMove = true;
+        canEvade = true;
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         hand = FindObjectOfType<Hand>();
     }
 
@@ -24,42 +26,66 @@ public class InputManager : Singleton<InputManager>
         tempEvadeTime -= Time.deltaTime;
         tempFireTime -= Time.deltaTime;
 
-        if (mouseRotZ > 90 || mouseRotZ < -90)
+        if (player.State == PlayerState.Combat)
         {
-            hand.FlipGun(true);
-            player.FlipPlayerSprite(true);
-        }
-        else
-        {
-            hand.FlipGun(false);
-            player.FlipPlayerSprite(false);
-        }
-
-        if (tempEvadeTime <= 0)
-        {
-            canEvade = true;
-            if (Input.GetButtonDown("Evade"))
-                player.isEvade = true;
-        }
-        else
-        {
-            canEvade = false;
-        }
-
-        if (Input.GetButton("Fire") && WeaponManager.instance.currentGun != null)
-        {
-            IGunStats gun = WeaponManager.instance.currentGun;
-            float cost = gun.Cost + gun.ModifierInfo.ammoCost;
-            if (cost < 0)
-                cost = 0;
-            if (tempFireTime <= 0&& player.GetStats().currentAmmo >= cost)
+            if (mouseRotZ > 90 || mouseRotZ < -90)
             {
-                WeaponManager.instance.Fire();
+                hand.FlipGun(true);
+                player.FlipPlayerSprite(true);
+            }
+            else
+            {
+                hand.FlipGun(false);
+                player.FlipPlayerSprite(false);
+            }
 
-                player.GetStats().currentAmmo -= cost;
-                FindObjectOfType<UIManager>().UpdateAmmo();
-                float fireRate = gun.FireRate + (gun.ModifierInfo.fireRatePercentage / 100f * gun.FireRate);
-                tempFireTime = 1 / fireRate;
+            if (tempEvadeTime <= 0)
+            {
+                canEvade = true;
+                if (Input.GetButtonDown("Evade"))
+                    player.isEvade = true;
+            }
+            else
+            {
+                canEvade = false;
+            }
+            
+            if (Input.GetButton("Fire") && WeaponManager.instance.currentGun != null)
+            {
+                IGunStats gun = WeaponManager.instance.currentGun;
+                float cost = gun.Cost + gun.ModifierInfo.ammoCost;
+                if (cost < 0)
+                    cost = 0;
+                if (tempFireTime <= 0)
+                {
+                    WeaponManager.instance.Fire();
+
+                    // player.GetStats().currentAmmo -= cost;
+                    FindObjectOfType<UIManager>().UpdateAmmo();
+                    float fireRate = gun.FireRate + (gun.ModifierInfo.fireRatePercentage / 100f * gun.FireRate);
+                    tempFireTime = 1 / fireRate;
+                }
+            }
+            
+            if (Input.GetButtonDown("Cast Spell"))
+            {
+                SpellManager.instance.ClearInputList();
+                player.SwitchState(PlayerState.Casting);
+            }
+        }
+        else if (player.State == PlayerState.Casting)
+        {
+            if (Input.GetButtonDown("Evade"))
+            {
+                player.SwitchState(PlayerState.Combat);
+                
+                SpellManager.instance.ConfirmCastSpell();
+            }
+
+            if (Input.GetButtonDown("Cast Spell"))
+            {
+                SpellManager.instance.ClearInputList();
+                player.SwitchState(PlayerState.Combat);
             }
         }
 
@@ -77,6 +103,28 @@ public class InputManager : Singleton<InputManager>
             WeaponManager.instance.DropGun();
         }
     }
+
+    public void SetCanMove(bool isEnable, float delay = 0f)
+    {
+        StartCoroutine(OnDelaySetCanMove(isEnable, delay));
+    }
+    public void SetCanEvade(bool isEnable, float delay = 0f)
+    {
+        StartCoroutine(OnDelaySetCanEvade(isEnable, delay));
+    }
+
+    IEnumerator OnDelaySetCanMove(bool isEnable, float delay = 0f)
+    {
+        yield return new WaitForSeconds(delay);
+        canMove = isEnable;
+    }
+    
+    IEnumerator OnDelaySetCanEvade(bool isEnable, float delay = 0f)
+    {
+        yield return new WaitForSeconds(delay);
+        canEvade = isEnable;
+    }
+    
     public void CollectItem(IInventoryItem item)
     {
         if (Input.GetButtonDown("Collect"))
