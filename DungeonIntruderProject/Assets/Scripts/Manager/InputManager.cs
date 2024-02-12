@@ -23,6 +23,9 @@ public class InputManager : Singleton<InputManager>
 
     void Update()
     {
+        if (player == null)
+            return;
+        
         tempEvadeTime -= Time.deltaTime;
         tempFireTime -= Time.deltaTime;
 

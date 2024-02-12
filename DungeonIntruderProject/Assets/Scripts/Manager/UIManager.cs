@@ -8,10 +8,11 @@ public class UIManager : MonoBehaviour
     public Text ammoText;
     public Text gunText;
     public Text slotIndex;
-    IPlayer player;
+    public Text hpText;
+    Player player;
     void Start()
     {
-        player = FindObjectOfType<Player>().GetComponent<IPlayer>();
+        player = FindObjectOfType<Player>();
         // ammoText.text = FindObjectOfType<Player>().GetComponent<Stats>().currentAmmo.ToString();
     }
 
@@ -26,5 +27,10 @@ public class UIManager : MonoBehaviour
     public void PickUpText(IInventoryItem item)
     {
         gunText.text = "You got " + item.GetIGunStats().ModifierInfo.name + " " + item.Name;
+    }
+
+    public void UpdateHP()
+    {
+        hpText.text = $"HP: {player.GetStats().currentHP}/{player.GetStats().maxHP}";
     }
 }

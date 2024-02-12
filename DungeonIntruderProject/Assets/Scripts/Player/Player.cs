@@ -89,6 +89,22 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(onEnding);
         collider.enabled = true;
     }
+
+    public void TakeDamage(float dmg)
+    {
+        stats.currentHP -= dmg;
+        if (stats.currentHP <= 0)
+        {
+            stats.currentHP = 0;
+            OnDead();
+        }
+        FindObjectOfType<UIManager>().UpdateHP();
+    }
+
+    public void OnDead()
+    {
+        Destroy(this.gameObject);
+    }
 }
 public enum PlayerState
 {

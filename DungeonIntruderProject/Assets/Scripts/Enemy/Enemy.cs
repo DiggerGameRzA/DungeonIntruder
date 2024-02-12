@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] public Health health;
     [SerializeField] private SpriteRenderer sprite;
     [SerializeField] private float delayFireTime;
     [SerializeField] private float tempTime;

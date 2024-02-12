@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Health : MonoBehaviour, IHealth
+public class Health : MonoBehaviour
 {
     [SerializeField] float _currentHealth = 100f;
     [SerializeField] float _maxHealth = 100f;
@@ -19,6 +19,16 @@ public class Health : MonoBehaviour, IHealth
     }
     public void TakeDamage(float dmg)
     {
+        _currentHealth -= dmg;
+        if (_currentHealth <= 0)
+        {
+            _currentHealth = 0;
+            OnDead();
+        }
+    }
 
+    private void OnDead()
+    {
+        Destroy(this.gameObject);
     }
 }

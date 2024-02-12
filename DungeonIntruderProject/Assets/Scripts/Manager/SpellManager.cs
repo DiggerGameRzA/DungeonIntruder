@@ -117,7 +117,6 @@ public class SpellManager : Singleton<SpellManager>
             return;
         }
         Debug.Log("Casting spell");
-        
     }
 
     public SpellInfo FindSpellByInputs()

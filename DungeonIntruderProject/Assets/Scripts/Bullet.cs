@@ -25,6 +25,7 @@ public class Bullet : MonoBehaviour
                 dmgI.GetComponent<TextMesh>().text = Mathf.RoundToInt(damage).ToString();
 
                 Destroy(dmgI, 0.5f);
+                col.GetComponentInParent<Player>().TakeDamage(damage);
                 Destroy(gameObject);
             }
         }
@@ -40,6 +41,7 @@ public class Bullet : MonoBehaviour
             dmgI.GetComponent<TextMesh>().text = Mathf.RoundToInt(damage).ToString();
 
             Destroy(dmgI, 0.5f);
+            col.GetComponent<Enemy>().health.TakeDamage(damage);
             Destroy(gameObject);
         }
     }
