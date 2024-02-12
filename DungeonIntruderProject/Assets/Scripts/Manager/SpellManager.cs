@@ -116,7 +116,7 @@ public class SpellManager : Singleton<SpellManager>
             Debug.Log("Spell not found");
             return;
         }
-        Debug.Log("Casting spell");
+        spell.CastSpell(player);
     }
 
     public SpellInfo FindSpellByInputs()

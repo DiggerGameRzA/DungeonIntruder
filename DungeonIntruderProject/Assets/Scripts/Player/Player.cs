@@ -12,6 +12,8 @@ public class Player : MonoBehaviour
     public PlayerState State;
     PlayerMovement movement;
     [SerializeField] Stats stats;
+
+    [SerializeField] private ParticleSystem healParticle;
     public bool isEvade { get; set; }
 
     void Start()
@@ -90,6 +92,17 @@ public class Player : MonoBehaviour
         collider.enabled = true;
     }
 
+    public void TakeHeal(float heal)
+    {
+        stats.currentHP += heal;
+        if (stats.currentHP >= stats.maxHP)
+        {
+            stats.currentHP = stats.maxHP;
+        }
+        healParticle.gameObject.SetActive(true);
+        FindObjectOfType<UIManager>().UpdateHP();
+    }
+    
     public void TakeDamage(float dmg)
     {
         stats.currentHP -= dmg;

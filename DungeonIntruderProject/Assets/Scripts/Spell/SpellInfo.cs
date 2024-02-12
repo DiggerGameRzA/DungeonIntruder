@@ -12,12 +12,13 @@ public class SpellInfo : ScriptableObject
     public float actionValue = 10f;
     public float actionDistance = 5f;
 
-    public void CastSpell()
+    public void CastSpell(Player player)
     {
         switch (spellType)
         {
             case SpellType.Heal:
                 Debug.Log("Heal");
+                player.TakeHeal(actionValue);
                 break;
             case SpellType.Damage:
                 Debug.Log("Damage");
