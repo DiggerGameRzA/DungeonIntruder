@@ -6,6 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Spell1", menuName = "ScriptableObjects/Spells", order = 1)]
 public class SpellInfo : ScriptableObject
 {
+    public string name = "Unnamed Spell";
     public List<SpellInput> listOfSpellInputs;
     public SpellType spellType;
     public float actionValue = 10f;

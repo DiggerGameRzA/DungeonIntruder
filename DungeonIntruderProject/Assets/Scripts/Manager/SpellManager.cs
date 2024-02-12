@@ -16,7 +16,11 @@ public class SpellManager : Singleton<SpellManager>
     [SerializeField] private SpellInputTab tabDown;
     [SerializeField] private SpellInputTab tabRight;
     [SerializeField] private SpellInputTab tabLeft;
-    [SerializeField] private List<SpellInputTab> listOfTabs = new List<SpellInputTab>();
+    [SerializeField] private List<SpellInputTab> listOfInputTabs = new List<SpellInputTab>();
+    
+    [SerializeField] private Transform spellContent;
+    [SerializeField] private SpellTab spellTab;
+    [SerializeField] private List<SpellTab> listOfSpellTabs = new List<SpellTab>();
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
@@ -33,7 +37,7 @@ public class SpellManager : Singleton<SpellManager>
                     listOfSpellInputs.Add(SpellInput.Up);
                     
                     SpellInputTab tab = Instantiate(tabUp, tabContent);
-                    listOfTabs.Add(tab);
+                    listOfInputTabs.Add(tab);
                     tab.gameObject.SetActive(true);
                 }
                 if (Input.GetKeyDown(KeyCode.S))
@@ -41,7 +45,7 @@ public class SpellManager : Singleton<SpellManager>
                     listOfSpellInputs.Add(SpellInput.Down);
                     
                     SpellInputTab tab = Instantiate(tabDown, tabContent);
-                    listOfTabs.Add(tab);
+                    listOfInputTabs.Add(tab);
                     tab.gameObject.SetActive(true);
                 }
                 if (Input.GetKeyDown(KeyCode.D))
@@ -49,7 +53,7 @@ public class SpellManager : Singleton<SpellManager>
                     listOfSpellInputs.Add(SpellInput.Right);
                     
                     SpellInputTab tab = Instantiate(tabRight, tabContent);
-                    listOfTabs.Add(tab);
+                    listOfInputTabs.Add(tab);
                     tab.gameObject.SetActive(true);
                 }
                 if (Input.GetKeyDown(KeyCode.A))
@@ -57,7 +61,7 @@ public class SpellManager : Singleton<SpellManager>
                     listOfSpellInputs.Add(SpellInput.Left);
                     
                     SpellInputTab tab = Instantiate(tabLeft, tabContent);
-                    listOfTabs.Add(tab);
+                    listOfInputTabs.Add(tab);
                     tab.gameObject.SetActive(true);
                 }
             }
@@ -69,17 +73,39 @@ public class SpellManager : Singleton<SpellManager>
         groupPanel.SetActive(isEnable);
         if (!isEnable)
         {
-            foreach (var tab in listOfTabs)
+            foreach (var tab in listOfInputTabs)
             {
                 Destroy(tab.gameObject);
             }
-            listOfTabs.Clear();
+            listOfInputTabs.Clear();
+        }
+        else
+        {
+            RefreshUI();
         }
     }
 
     public void ClearInputList()
     {
         listOfSpellInputs.Clear();
+    }
+
+    public void RefreshUI()
+    {
+        foreach (var spell in listOfSpellTabs)
+        {
+            Destroy(spell.gameObject);
+        }
+        listOfSpellTabs.Clear();
+        
+        spellTab.gameObject.SetActive(false);
+        foreach (var spellInfo in listOfSpellInfos)
+        {
+            SpellTab tab = Instantiate(spellTab, spellContent);
+            tab.gameObject.SetActive(true);
+            listOfSpellTabs.Add(tab);
+            tab.RefreshUI(spellInfo);
+        }
     }
 
     public void ConfirmCastSpell()

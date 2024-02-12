@@ -8,6 +8,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     CharacterController controller;
+    [SerializeField] private Collider2D collider;
     public PlayerState State;
     PlayerMovement movement;
     [SerializeField] Stats stats;
@@ -32,6 +33,7 @@ public class Player : MonoBehaviour
         if (isEvade)
         {
             StartCoroutine(movement.Evade());
+            StartCoroutine(OnIFraming(0f, 0.4f));
             isEvade = false;
         }
     }
@@ -77,6 +79,15 @@ public class Player : MonoBehaviour
     public void FlipPlayerSprite(bool flip)
     {
         transform.GetChild(0).GetComponent<SpriteRenderer>().flipX = flip;
+    }
+
+    public IEnumerator OnIFraming(float onBegin, float onEnding)
+    {
+        yield return new WaitForSeconds(onBegin);
+        collider.enabled = false;
+
+        yield return new WaitForSeconds(onEnding);
+        collider.enabled = true;
     }
 }
 public enum PlayerState
