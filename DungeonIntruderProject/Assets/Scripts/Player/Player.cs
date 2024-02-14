@@ -116,7 +116,7 @@ public class Player : MonoBehaviour
 
     public void OnDead()
     {
-        Destroy(this.gameObject);
+        gameObject.SetActive(false);
     }
 }
 public enum PlayerState
