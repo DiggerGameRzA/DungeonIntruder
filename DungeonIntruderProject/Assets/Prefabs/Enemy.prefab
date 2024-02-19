@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2579035744629744342}
   - component: {fileID: 2579035744629744331}
   - component: {fileID: 7337770160564686645}
+  - component: {fileID: 139041809422053186}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -108,6 +109,22 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!58 &139041809422053186
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2579035744629744343}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &2579035744864036028
 GameObject:
   m_ObjectHideFlags: 0

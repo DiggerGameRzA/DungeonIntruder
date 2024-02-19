@@ -20,8 +20,9 @@ public class WeaponManager : Singleton<WeaponManager>
     }
     public void Fire()
     {
-        GameObject go = Instantiate(currentGun.Bullet, bulletSpawn.position, bulletSpawn.rotation);
+        Bullet go = Instantiate(currentGun.Bullet, bulletSpawn.position, bulletSpawn.rotation);
         go.GetComponent<Rigidbody2D>().velocity = bulletSpawn.right * currentGun.Velocity;
+        Debug.Log(go.GetComponent<Rigidbody2D>().velocity);
     }
     public void EquipGun()
     {

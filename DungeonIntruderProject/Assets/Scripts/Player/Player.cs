@@ -7,7 +7,8 @@ using UnityEngine;
 [RequireComponent(typeof(EquipmentInventory))]
 public class Player : MonoBehaviour
 {
-    CharacterController controller;
+    // CharacterController controller;
+    [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Collider2D collider;
     public PlayerState State;
     PlayerMovement movement;
@@ -19,19 +20,23 @@ public class Player : MonoBehaviour
     void Start()
     {
         isEvade = false;
-        controller = GetComponent<CharacterController>();
+        // controller = GetComponent<CharacterController>();
+        rb = GetComponent<Rigidbody2D>();
         stats = GetComponent<Stats>();
         movement = new PlayerMovement(this);
         State = PlayerState.Combat;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (InputManager.instance.canMove)
         {
             movement.Run();
         }
+    }
 
+    private void Update()
+    {
         if (isEvade)
         {
             StartCoroutine(movement.Evade());
@@ -58,11 +63,16 @@ public class Player : MonoBehaviour
         }
     }
 
-    public CharacterController GetController()
-    {
-        return controller;
-    }
+    // public CharacterController GetController()
+    // {
+    //     return controller;
+    // }
 
+    public Rigidbody2D GetRigidBody()
+    {
+        return rb;
+    }
+    
     public Transform GetTransform()
     {
         return transform;

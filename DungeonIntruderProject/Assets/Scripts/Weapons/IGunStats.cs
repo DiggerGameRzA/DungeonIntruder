@@ -10,6 +10,6 @@ public interface IGunStats
     float FireRate { get; }
     float Cost { get; }
     float Velocity { get; }
-    GameObject Bullet { get; }
+    Bullet Bullet { get; }
     Modifier ModifierInfo { get; set; }
 }

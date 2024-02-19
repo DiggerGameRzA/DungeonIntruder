@@ -6,19 +6,21 @@ public class PlayerMovement
 {
     Player player;
     Stats stats;
-    CharacterController controller;
+    // CharacterController controller;
+    Rigidbody2D rb;
     Transform transform;
     public PlayerMovement(Player player)
     {
         this.player = player;
-        controller = player.GetController();
+        // controller = player.GetController();
+        rb = player.GetRigidBody();
         transform = player.GetTransform();
         stats = player.GetStats();
     }
     public void Run()
     {
-        //rb.AddForce(GetMovementDir() * player.GetStats().runSpeed);
-        controller.Move(GetMovementDir() * stats.movementSpeed * Time.deltaTime);
+        rb.velocity = GetMovementDir().normalized * player.GetStats().movementSpeed;
+        // controller.Move(GetMovementDir() * stats.movementSpeed * Time.deltaTime);
     }
     public IEnumerator Evade()
     {
@@ -31,7 +33,8 @@ public class PlayerMovement
 
             while (stats.evadeDistance > Vector3.Distance(startPos, transform.position))
             {
-                controller.Move(GetMovementDir().normalized * stats.evadeSpeed * Time.deltaTime);
+                // controller.Move(GetMovementDir().normalized * stats.evadeSpeed * Time.deltaTime);
+                rb.velocity = GetMovementDir().normalized * stats.evadeSpeed;
                 yield return null;
             }
             InputManager.instance.SetCanMove(true);

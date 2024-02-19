@@ -25,6 +25,8 @@ public class InputManager : Singleton<InputManager>
     {
         if (player == null)
             return;
+        if (!player.gameObject.activeInHierarchy)
+            return;
         
         tempEvadeTime -= Time.deltaTime;
         tempFireTime -= Time.deltaTime;

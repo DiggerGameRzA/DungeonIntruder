@@ -47,6 +47,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -71,6 +72,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!102 &1522036902946522627
 TextMesh:
   serializedVersion: 3
@@ -139,6 +141,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -279,9 +282,9 @@ MonoBehaviour:
   _fireRate: 2
   _cost: 0
   _velocity: 10
-  _bullet: {fileID: 3845082738917940399, guid: e9de045e35cf91a46b161b698bd87408, type: 3}
+  _bullet: {fileID: -2028842785020186885, guid: e9de045e35cf91a46b161b698bd87408,
+    type: 3}
   _modifierInfo:
-    modName: 0
     name: 
     dmgPercentage: 0
     ammoCost: 0

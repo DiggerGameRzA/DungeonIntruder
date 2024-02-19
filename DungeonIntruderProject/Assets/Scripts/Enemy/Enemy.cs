@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,6 +27,9 @@ public class Enemy : MonoBehaviour
     {
         if (_player != null)
         {
+            if (Vector2.Distance(_player.transform.position, transform.position) > 10f)
+                return;
+            
             Vector3 playerPos = transform.position - _player.transform.position;
             if (playerPos.x < 0)
             {
@@ -56,9 +60,9 @@ public class Enemy : MonoBehaviour
 
     private void Fire()
     {
+        Vector2 playerDir = _player.transform.position - transform.position;
         Bullet bullet = Instantiate(prefabBullet, transform.position, Quaternion.identity).GetComponent<Bullet>();
         bullet.isFromEnemy = true;
-        bullet.GetComponent<Rigidbody2D>().velocity = 
-            (transform.position - _player.transform.position).normalized * - 5f;
+        bullet.GetComponent<Rigidbody2D>().velocity = (playerDir).normalized * 5f;
     }
 }
