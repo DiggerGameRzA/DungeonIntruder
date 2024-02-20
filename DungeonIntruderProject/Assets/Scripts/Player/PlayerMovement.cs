@@ -19,15 +19,20 @@ public class PlayerMovement
     }
     public void Run()
     {
-        rb.velocity = GetMovementDir().normalized * player.GetStats().movementSpeed;
+        rb.velocity = GetMovementDir().normalized * player.GetTrueMoveSpeed();
         // controller.Move(GetMovementDir() * stats.movementSpeed * Time.deltaTime);
+    }
+
+    public void StopRun()
+    {
+        rb.velocity = Vector2.zero;
     }
     public IEnumerator Evade()
     {
         if (GetMovementDir().normalized != Vector2.zero)
         {
-            InputManager.instance.SetCanMove(false);
-            InputManager.instance.tempEvadeTime = stats.evadeCooldown;
+            player.SwitchState(PlayerState.Evading);
+            InputManager.Instance.tempEvadeTime = stats.evadeCooldown;
 
             Vector3 startPos = transform.position;
 
@@ -37,7 +42,6 @@ public class PlayerMovement
                 rb.velocity = GetMovementDir().normalized * stats.evadeSpeed;
                 yield return null;
             }
-            InputManager.instance.SetCanMove(true);
         }
     }
     public Vector2 GetMovementDir()

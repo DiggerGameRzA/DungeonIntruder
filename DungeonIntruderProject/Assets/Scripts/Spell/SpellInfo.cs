@@ -9,11 +9,16 @@ public class SpellInfo : ScriptableObject
     public string name = "Unnamed Spell";
     public List<SpellInput> listOfSpellInputs;
     public SpellType spellType;
+    public float actionCost = 20f;
     public float actionValue = 10f;
     public float actionDistance = 5f;
 
     public void CastSpell(Player player)
     {
+        if (player.GetStats().currentMana - actionCost < 0)
+            return;
+        
+        player.CostMana(actionCost);
         switch (spellType)
         {
             case SpellType.Heal:

@@ -22,15 +22,14 @@ public class WeaponManager : Singleton<WeaponManager>
     {
         Bullet go = Instantiate(currentGun.Bullet, bulletSpawn.position, bulletSpawn.rotation);
         go.GetComponent<Rigidbody2D>().velocity = bulletSpawn.right * currentGun.Velocity;
-        Debug.Log(go.GetComponent<Rigidbody2D>().velocity);
     }
     public void EquipGun()
     {
-        GunInventory.instance.ShowGun(GunInventory.instance.gSlots[GunInventory.instance.currentSlot].Name);
+        GunInventory.Instance.ShowGun(GunInventory.Instance.gSlots[GunInventory.Instance.currentSlot].Name);
     }
     public void DropGun()
     {
-        GunInventory inv = GunInventory.instance;
+        GunInventory inv = GunInventory.Instance;
         if (inv.gSlots[inv.currentSlot] != null)
             inv.gSlots[inv.currentSlot] = null;
     }

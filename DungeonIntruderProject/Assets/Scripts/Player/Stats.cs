@@ -6,8 +6,8 @@ public class Stats : MonoBehaviour
 {
     public float maxHP = 100f;
     public float currentHP = 100f;
-    // public float maxMana = 50f;
-    // public float currentMana = 50f;
+    public float maxMana = 50f;
+    public float currentMana = 50f;
     public float shield = 0f;
     public float healingPercentage = 0f;
     public float collectRange = 50f;

@@ -7,8 +7,8 @@ public class InputManager : Singleton<InputManager>
     Player player;
     Hand hand;
 
-    [SerializeField] public bool canEvade;
-    [SerializeField] public bool canMove;
+    [SerializeField] public bool canEvade { get; private set; }
+    [SerializeField] public bool canMove { get; private set; }
 
     [SerializeField] float tempFireTime = 0;
     public float tempEvadeTime = 0f;
@@ -31,39 +31,30 @@ public class InputManager : Singleton<InputManager>
         tempEvadeTime -= Time.deltaTime;
         tempFireTime -= Time.deltaTime;
 
+        
+        
         if (player.State == PlayerState.Combat)
         {
-            if (mouseRotZ > 90 || mouseRotZ < -90)
-            {
-                hand.FlipGun(true);
-                player.FlipPlayerSprite(true);
-            }
-            else
-            {
-                hand.FlipGun(false);
-                player.FlipPlayerSprite(false);
-            }
-
             if (tempEvadeTime <= 0)
             {
                 canEvade = true;
                 if (Input.GetButtonDown("Evade"))
-                    player.isEvade = true;
+                    StartCoroutine(player.movement.Evade());
             }
             else
             {
                 canEvade = false;
             }
             
-            if (Input.GetButton("Fire") && WeaponManager.instance.currentGun != null)
+            if (Input.GetButton("Fire") && WeaponManager.Instance.currentGun != null)
             {
-                IGunStats gun = WeaponManager.instance.currentGun;
+                IGunStats gun = WeaponManager.Instance.currentGun;
                 float cost = gun.Cost + gun.ModifierInfo.ammoCost;
                 if (cost < 0)
                     cost = 0;
                 if (tempFireTime <= 0)
                 {
-                    WeaponManager.instance.Fire();
+                    WeaponManager.Instance.Fire();
 
                     // player.GetStats().currentAmmo -= cost;
                     FindObjectOfType<UIManager>().UpdateAmmo();
@@ -74,7 +65,7 @@ public class InputManager : Singleton<InputManager>
             
             if (Input.GetButtonDown("Cast Spell"))
             {
-                SpellManager.instance.ClearInputList();
+                SpellManager.Instance.ClearInputList();
                 player.SwitchState(PlayerState.Casting);
             }
         }
@@ -84,12 +75,12 @@ public class InputManager : Singleton<InputManager>
             {
                 player.SwitchState(PlayerState.Combat);
                 
-                SpellManager.instance.ConfirmCastSpell();
+                SpellManager.Instance.ConfirmCastSpell();
             }
 
             if (Input.GetButtonDown("Cast Spell"))
             {
-                SpellManager.instance.ClearInputList();
+                SpellManager.Instance.ClearInputList();
                 player.SwitchState(PlayerState.Combat);
             }
         }
@@ -105,7 +96,7 @@ public class InputManager : Singleton<InputManager>
 
         if (Input.GetButtonDown("Drop"))
         {
-            WeaponManager.instance.DropGun();
+            WeaponManager.Instance.DropGun();
         }
     }
 
@@ -130,16 +121,26 @@ public class InputManager : Singleton<InputManager>
         canEvade = isEnable;
     }
     
+    public void ObtainReward(RewardObject rewardObject)
+    {
+        if (rewardObject == null) return;
+        
+        if (Input.GetButtonDown("Collect"))
+        {
+            rewardObject.EnableRewardsUI();
+        }
+    }
+    
     public void CollectItem(IInventoryItem item)
     {
         if (Input.GetButtonDown("Collect"))
         {
-            GunInventory.instance.AddWeapon(item);
+            GunInventory.Instance.AddWeapon(item);
         }
     }
     void FindNextGun(bool up)
     {
-        GunInventory inventory = GunInventory.instance;
+        GunInventory inventory = GunInventory.Instance;
         int newSlot = 0;
         if (up)
         {
@@ -158,8 +159,8 @@ public class InputManager : Singleton<InputManager>
         if (inventory.gSlots[newSlot] != null)
         {
             inventory.currentSlot = newSlot;
-            WeaponManager.instance.currentGun = inventory.gSlots[inventory.currentSlot];
-            WeaponManager.instance.EquipGun();
+            WeaponManager.Instance.currentGun = inventory.gSlots[inventory.currentSlot];
+            WeaponManager.Instance.EquipGun();
         }
         else
             print("There is no others gun.");

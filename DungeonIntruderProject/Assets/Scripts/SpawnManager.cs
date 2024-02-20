@@ -9,8 +9,8 @@ public class SpawnManager : MonoBehaviour
     public Transform[] spawn;
     void Start()
     {
-        mods = WeaponManager.instance.mods;
-        guns = WeaponManager.instance.guns;
+        mods = WeaponManager.Instance.mods;
+        guns = WeaponManager.Instance.guns;
         for (int i = 0; i < spawn.Length; i++)
         {
             GameObject gun = guns[Random.Range(0, guns.Length)];

@@ -6,6 +6,7 @@ public class Hand : MonoBehaviour
 {
     InputManager inputManager;
     private Player player;
+    private float mouseRotZ;
     private void Start()
     {
         inputManager = FindObjectOfType<InputManager>();
@@ -13,9 +14,23 @@ public class Hand : MonoBehaviour
     }
     void Update()
     {
-        if (player.State == PlayerState.Combat)
+        mouseRotZ = inputManager.GetMousePosition(transform);
+        if (player.State == PlayerState.Combat || player.State == PlayerState.Casting)
         {
-            transform.rotation = Quaternion.Euler(0, 0, inputManager.GetMousePosition(transform));
+            transform.rotation = Quaternion.Euler(0, 0, mouseRotZ);
+        }
+        if (player.State == PlayerState.Combat || player.State == PlayerState.Casting)
+        {
+            if (mouseRotZ > 90 || mouseRotZ < -90)
+            {
+                FlipGun(true);
+                player.FlipPlayerSprite(true);
+            }
+            else
+            {
+                FlipGun(false);
+                player.FlipPlayerSprite(false);
+            }
         }
     }
     public void FlipGun(bool flip)
