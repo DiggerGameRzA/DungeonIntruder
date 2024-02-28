@@ -26,7 +26,15 @@ public class WeaponManager : Singleton<WeaponManager>
     }
     public void EquipGun()
     {
-        GunInventory.Instance.ShowGun(GunInventory.Instance.gSlots[GunInventory.Instance.currentSlot].Name);
+        ShowGun(GunInventory.Instance.gSlots[GunInventory.Instance.currentSlot]);
+    }
+    
+    public void ShowGun(GunStats gun)
+    {
+        Player player = FindObjectOfType<Player>();
+        Transform guns = player.gunPos;
+        SpriteRenderer gunSprite = guns.GetComponent<SpriteRenderer>();
+        gunSprite.sprite = gun.Sprite;
     }
     public void DropGun()
     {

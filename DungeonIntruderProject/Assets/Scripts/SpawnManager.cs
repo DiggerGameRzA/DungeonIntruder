@@ -42,7 +42,7 @@ public class SpawnManager : MonoBehaviour
     {
         if (pos == null) return;
         GameObject go = Instantiate(gun, pos, Quaternion.identity);
-        Modifier gunMod = go.GetComponent<IGunStats>().ModifierInfo;
+        Modifier gunMod = go.GetComponent<GunStats>().ModifierInfo;
         gunMod.name = mods[Random.Range(0, mods.Length)].name;
         SetModifierInfo(gunMod);
     }

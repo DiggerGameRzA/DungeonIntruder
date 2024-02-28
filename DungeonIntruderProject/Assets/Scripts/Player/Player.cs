@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public PlayerState State;
     public PlayerMovement movement;
     [SerializeField] Stats stats;
+    [SerializeField] public Transform gunPos;
     [SerializeField] public Transform bulletPos;
 
     [SerializeField] public ParticleSystem healParticle;
@@ -25,6 +26,8 @@ public class Player : MonoBehaviour
         stats = GetComponent<Stats>();
         movement = new PlayerMovement(this);
         State = PlayerState.Combat;
+        
+        WeaponManager.Instance.EquipGun();
     }
 
     private void FixedUpdate()
@@ -68,7 +71,7 @@ public class Player : MonoBehaviour
     {
         if (col.CompareTag("Item"))
         {
-            FindObjectOfType<InputManager>().CollectItem(col.GetComponent<Item>());
+            // FindObjectOfType<InputManager>().CollectItem(col.GetComponent<Item>());
         }
         else if (col.CompareTag("Reward"))
         {

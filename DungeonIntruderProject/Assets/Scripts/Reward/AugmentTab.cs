@@ -15,39 +15,62 @@ public class AugmentTab : MonoBehaviour
         this.rewardInfo = rewardInfo;
         this.obj = obj;
 
-        switch (rewardInfo.AugmentType)
+        if (rewardInfo.IsGun)
         {
-            case AugmentType.MaxHp:
-                textDes.text = $"Increase Max HP by {rewardInfo.Value}";
-                break;
-            case AugmentType.MoveSpeed:
-                textDes.text = $"Increase Movement Speed by {rewardInfo.Value}%";
-                break;
-            case AugmentType.MaxMana:
-                textDes.text = $"Increase Max Mana by {rewardInfo.Value}";
-                break;
-            case AugmentType.Shield:
-                textDes.text = $"Obtain Shield by {rewardInfo.Value}";
-                break;
-            case AugmentType.Gold:
-                textDes.text = $"Obtain {rewardInfo.Value} Gold";
-                break;
-            case AugmentType.Item:
-                break;
-            case AugmentType.BulletDmg:
-                break;
-            case AugmentType.PistolDmg:
-                break;
-            case AugmentType.SpellDmg:
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
+            textDes.text = $"Obtain {rewardInfo.GunInfo.GunName}";
+        }
+        else
+        {
+            switch (rewardInfo.AugmentType)
+            {
+                case AugmentType.MaxHp:
+                    textDes.text = $"Increase Max HP by {rewardInfo.Value}";
+                    break;
+                case AugmentType.MoveSpeed:
+                    textDes.text = $"Increase Movement Speed by {rewardInfo.Value}%";
+                    break;
+                case AugmentType.MaxMana:
+                    textDes.text = $"Increase Max Mana by {rewardInfo.Value}";
+                    break;
+                case AugmentType.Shield:
+                    textDes.text = $"Obtain Shield by {rewardInfo.Value}";
+                    break;
+                case AugmentType.Gold:
+                    textDes.text = $"Obtain {rewardInfo.Value} Gold";
+                    break;
+                case AugmentType.Item:
+                    break;
+                case AugmentType.BulletDmg:
+                    break;
+                case AugmentType.PistolDmg:
+                    break;
+                case AugmentType.SpellDmg:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 
     public void OnChooseAugment()
     {
-        AugmentInventory.Instance.AddAugment(rewardInfo);
+        if (rewardInfo.IsGun)
+        {
+            if (GunInventory.Instance.IsInventoryFull())
+            {
+                // Show replace gun ui
+            }
+            else
+            {
+                GunInventory.Instance.AddWeapon(rewardInfo.GunInfo);
+            }
+        }
+        else
+        {
+            AugmentInventory.Instance.AddAugment(rewardInfo);
+        }
+        
+        
         FindObjectOfType<UIManager>().DisableGetReward();
         obj.OnChoseReward();
     }

@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 public class RewardObject : MonoBehaviour
 {
     [SerializeField] private GameObject interactUI;
+    [SerializeField] private bool isGun;
     [SerializeField] private bool isRestart;
 
     [SerializeField] [NonReorderable] private List<RewardInfo> listOfRewardInfos = new List<RewardInfo>();
@@ -35,7 +36,15 @@ public class RewardObject : MonoBehaviour
 
     public void EnableRewardsUI()
     {
-        RewardInfo[] randRewardInfos = RewardManager.Instance.GetCommonAugment();
+        RewardInfo[] randRewardInfos;
+        if (isGun)
+        {
+            randRewardInfos = RewardManager.Instance.GetGuns();
+        }
+        else
+        {
+            randRewardInfos = RewardManager.Instance.GetCommonAugment();
+        }
 
         listOfRewardInfos = randRewardInfos.ToList();
         FindObjectOfType<UIManager>().RefreshGetReward(listOfRewardInfos, this);

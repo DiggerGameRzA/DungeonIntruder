@@ -13,6 +13,12 @@ public class RewardManager : Singleton<RewardManager>
         
         return augmentPool[randInt];
     }
+    private RewardInfo GetRandomGun()
+    {
+        int randInt = Random.Range(0, gunPool.Count);
+        
+        return gunPool[randInt];
+    }
     
     public RewardInfo[] GetCommonAugment()
     {
@@ -31,6 +37,32 @@ public class RewardManager : Singleton<RewardManager>
                 else
                 {
                     randInfo = augmentPool[augmentPool.IndexOf(randInfo) + 1];
+                }
+            }
+
+            rewardOutput.Add(randInfo);
+        }
+
+        return rewardOutput.ToArray();
+    }
+    
+    public RewardInfo[] GetGuns()
+    {
+        List<RewardInfo> rewardOutput = new List<RewardInfo>();
+
+        for (int i = 0; i < 3; i++)
+        {
+            RewardInfo randInfo = GetRandomGun();
+
+            while (rewardOutput.Contains(randInfo))
+            {
+                if (gunPool.IndexOf(randInfo) + 2 > gunPool.Count)
+                {
+                    randInfo = gunPool[0];
+                }
+                else
+                {
+                    randInfo = gunPool[gunPool.IndexOf(randInfo) + 1];
                 }
             }
 

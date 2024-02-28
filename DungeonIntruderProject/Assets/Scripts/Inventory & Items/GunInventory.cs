@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GunInventory : Singleton<GunInventory>
 {
-    [SerializeField] public List<GunStats> gSlots;
+    [SerializeField] public List<GunStats> gSlots = new List<GunStats>();
     public int currentSlot;
     int slotIndex = 2;
     private void Start()
@@ -13,21 +13,24 @@ public class GunInventory : Singleton<GunInventory>
         {
             currentSlot = 0;
             WeaponManager.Instance.currentGun = gSlots[currentSlot];
-            ShowGun(WeaponManager.Instance.currentGun.Name);
+            // ShowGun(WeaponManager.Instance.currentGun.GunName);
         }
-        for (int i = 0; i < gSlots.Count - slotIndex; i++)
+
+        while (gSlots.Count < slotIndex)
+        {
             gSlots.Add(null);
+        }
     }
-    public void AddWeapon(Item item)
+    public void AddWeapon(GunStats gunStats)
     {
         int empty = FindEmptySlot();
-        gSlots[empty] = (GunStats)item.GetGunStats();
+        gSlots[empty] = gunStats;
         currentSlot = empty;
 
-        WeaponManager.Instance.currentGun = item.GetGunStats();
-        ShowGun(WeaponManager.Instance.currentGun.Name);
-        FindObjectOfType<UIManager>().PickUpText(item);
-        item.OnPickUp();
+        WeaponManager.Instance.currentGun = gunStats;
+        // WeaponManager.Instance.EquipGun();
+        // FindObjectOfType<UIManager>().PickUpText(gunStats);
+        // item.OnPickUp();
     }
     int FindEmptySlot()
     {
@@ -38,15 +41,11 @@ public class GunInventory : Singleton<GunInventory>
         }
         return currentSlot;
     }
-    public void ShowGun(string name)
+
+    public bool IsInventoryFull()
     {
-        Player player = FindObjectOfType<Player>();
-        Transform guns = player.GetTransform().GetChild(1).GetChild(0);
-        foreach (Transform i in guns)
-        {
-            i.gameObject.SetActive(true);
-            if (i.name != name)
-                i.gameObject.SetActive(false);
-        }
+        GunStats slot = gSlots[FindEmptySlot()];
+
+        return slot != null;
     }
 }

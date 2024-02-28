@@ -44,34 +44,56 @@ public class InputManager : MonoBehaviour
                 canEvade = false;
             }
             
-            if (Input.GetButton("Fire") || Input.GetButton("Fire2"))
+            int newSlot = 0;
+            if (Input.GetButton("Fire"))
             {
-                int newSlot = 0;
-                if (Input.GetButton("Fire"))
-                {
-                    newSlot = 0;
-                    SwitchGun(0);
-                }
-                if (Input.GetButton("Fire2"))
-                {
-                    newSlot = 1;
-                    SwitchGun(1);
-                }
-                
+                newSlot = 0;
+                SwitchGun(0);
                 if (GunInventory.Instance.gSlots.Count <= newSlot)
                     return;
                 if (GunInventory.Instance.gSlots[newSlot] == null)
                     return;
-
-                GunStats gun = WeaponManager.Instance.currentGun;
-                if (tempFireTime <= 0)
+            }
+            if (Input.GetButton("Fire2"))
+            {
+                newSlot = 1;
+                SwitchGun(1);
+                if (GunInventory.Instance.gSlots.Count <= newSlot)
+                    return;
+                if (GunInventory.Instance.gSlots[newSlot] == null)
+                    return;
+            }
+            
+            GunStats gun = WeaponManager.Instance.currentGun;
+            if (gun.Pattern == GunPattern.Auto || gun.Pattern == GunPattern.Beam)
+            {
+                if (Input.GetButton("Fire") || Input.GetButton("Fire2"))
                 {
-                    WeaponManager.Instance.Fire();
+                    if (tempFireTime <= 0)
+                    {
+                        WeaponManager.Instance.Fire();
 
-                    // player.GetStats().currentAmmo -= cost;
-                    FindObjectOfType<UIManager>().UpdateAmmo();
-                    float fireRate = gun.FireRate + (gun.ModifierInfo.fireRatePercentage / 100f * gun.FireRate);
-                    tempFireTime = 1 / fireRate;
+                        // player.GetStats().currentAmmo -= cost;
+                        FindObjectOfType<UIManager>().UpdateAmmo();
+                        float fireRate = gun.FireRate + (gun.ModifierInfo.fireRatePercentage / 100f * gun.FireRate);
+                        tempFireTime = 1 / fireRate;
+                    }
+                }
+            }
+            
+            else if (gun.Pattern == GunPattern.Single || gun.Pattern == GunPattern.Burst)
+            {
+                if (Input.GetButtonDown("Fire") || Input.GetButtonDown("Fire2"))
+                {
+                    if (tempFireTime <= 0)
+                    {
+                        WeaponManager.Instance.Fire();
+
+                        // player.GetStats().currentAmmo -= cost;
+                        FindObjectOfType<UIManager>().UpdateAmmo();
+                        float fireRate = gun.FireRate + (gun.ModifierInfo.fireRatePercentage / 100f * gun.FireRate);
+                        tempFireTime = 1 / fireRate;
+                    }
                 }
             }
             
@@ -147,7 +169,7 @@ public class InputManager : MonoBehaviour
     {
         if (Input.GetButtonDown("Collect"))
         {
-            GunInventory.Instance.AddWeapon(item);
+            // GunInventory.Instance.AddWeapon(item);
         }
     }
     
