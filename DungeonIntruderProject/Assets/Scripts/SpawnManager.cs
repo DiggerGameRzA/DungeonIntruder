@@ -6,15 +6,36 @@ public class SpawnManager : MonoBehaviour
 {
     Modifier[] mods;
     GameObject[] guns;
+    [SerializeField] private Enemy prefabEnemy;
     public Transform[] spawn;
+
+    [SerializeField] private RewardObject rewardObject;
+
+    private int enemyCount = 0;
     void Start()
     {
-        mods = WeaponManager.Instance.mods;
-        guns = WeaponManager.Instance.guns;
-        for (int i = 0; i < spawn.Length; i++)
+        // mods = WeaponManager.Instance.mods;
+        // guns = WeaponManager.Instance.guns;
+        // for (int i = 0; i < spawn.Length; i++)
+        // {
+        //     GameObject gun = guns[Random.Range(0, guns.Length)];
+        //     SpawnAndRandomMod(gun, spawn[i].position);
+        // }
+
+        rewardObject.gameObject.SetActive(false);
+        foreach (var pos in spawn)
         {
-            GameObject gun = guns[Random.Range(0, guns.Length)];
-            SpawnAndRandomMod(gun, spawn[i].position);
+            enemyCount++;
+            Instantiate(prefabEnemy, pos.position, Quaternion.identity);
+        }
+    }
+
+    public void OnEnemyKilled()
+    {
+        enemyCount--;
+        if (enemyCount <= 0)
+        {
+            rewardObject.gameObject.SetActive(true);
         }
     }
     void SpawnAndRandomMod(GameObject gun, Vector3 pos)

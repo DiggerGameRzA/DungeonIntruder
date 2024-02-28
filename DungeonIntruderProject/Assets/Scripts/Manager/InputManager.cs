@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InputManager : Singleton<InputManager>
+public class InputManager : MonoBehaviour
 {
     Player player;
-    Hand hand;
 
     [SerializeField] public bool canEvade { get; private set; }
     [SerializeField] public bool canMove { get; private set; }
@@ -18,7 +17,6 @@ public class InputManager : Singleton<InputManager>
         canMove = true;
         canEvade = true;
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        hand = FindObjectOfType<Hand>();
     }
 
     void Update()
@@ -46,12 +44,26 @@ public class InputManager : Singleton<InputManager>
                 canEvade = false;
             }
             
-            if (Input.GetButton("Fire") && WeaponManager.Instance.currentGun != null)
+            if (Input.GetButton("Fire") || Input.GetButton("Fire2"))
             {
-                IGunStats gun = WeaponManager.Instance.currentGun;
-                float cost = gun.Cost + gun.ModifierInfo.ammoCost;
-                if (cost < 0)
-                    cost = 0;
+                int newSlot = 0;
+                if (Input.GetButton("Fire"))
+                {
+                    newSlot = 0;
+                    SwitchGun(0);
+                }
+                if (Input.GetButton("Fire2"))
+                {
+                    newSlot = 1;
+                    SwitchGun(1);
+                }
+                
+                if (GunInventory.Instance.gSlots.Count <= newSlot)
+                    return;
+                if (GunInventory.Instance.gSlots[newSlot] == null)
+                    return;
+
+                GunStats gun = WeaponManager.Instance.currentGun;
                 if (tempFireTime <= 0)
                 {
                     WeaponManager.Instance.Fire();
@@ -85,14 +97,14 @@ public class InputManager : Singleton<InputManager>
             }
         }
 
-        if(Input.GetAxis("Mouse ScrollWheel") > 0f) //up
-        {
-            FindNextGun(true);
-        }
-        else if(Input.GetAxis("Mouse ScrollWheel") < 0f) //down
-        {
-            FindNextGun(false);
-        }
+        // if(Input.GetAxis("Mouse ScrollWheel") > 0f) //up
+        // {
+        //     FindNextGun(true);
+        // }
+        // else if(Input.GetAxis("Mouse ScrollWheel") < 0f) //down
+        // {
+        //     FindNextGun(false);
+        // }
 
         if (Input.GetButtonDown("Drop"))
         {
@@ -131,13 +143,29 @@ public class InputManager : Singleton<InputManager>
         }
     }
     
-    public void CollectItem(IInventoryItem item)
+    public void CollectItem(Item item)
     {
         if (Input.GetButtonDown("Collect"))
         {
             GunInventory.Instance.AddWeapon(item);
         }
     }
+    
+    void SwitchGun(int slot)
+    {
+        GunInventory inventory = GunInventory.Instance;
+        
+        if (inventory.gSlots.Count <= slot)
+            return;
+
+        if (inventory.gSlots[slot] != null)
+        {
+            inventory.currentSlot = slot;
+            WeaponManager.Instance.currentGun = inventory.gSlots[inventory.currentSlot];
+            WeaponManager.Instance.EquipGun();
+        }
+    }
+    
     void FindNextGun(bool up)
     {
         GunInventory inventory = GunInventory.Instance;
@@ -164,7 +192,6 @@ public class InputManager : Singleton<InputManager>
         }
         else
             print("There is no others gun.");
-        
     }
     public static float GetVerInput()
     {

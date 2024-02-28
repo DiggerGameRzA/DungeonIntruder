@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class WeaponManager : Singleton<WeaponManager>
 {
-    public Modifier[] mods;
-    public GameObject[] guns;
+    // public Modifier[] mods;
+    // public GameObject[] guns;
     [SerializeField]
-    public IGunStats currentGun;
+    public GunStats currentGun;
     [SerializeField] Transform bulletSpawn = null;
     void Start()
     {
@@ -20,6 +20,7 @@ public class WeaponManager : Singleton<WeaponManager>
     }
     public void Fire()
     {
+        bulletSpawn = FindObjectOfType<Player>().bulletPos;
         Bullet go = Instantiate(currentGun.Bullet, bulletSpawn.position, bulletSpawn.rotation);
         go.GetComponent<Rigidbody2D>().velocity = bulletSpawn.right * currentGun.Velocity;
     }

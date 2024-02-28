@@ -3,10 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RewardObject : MonoBehaviour
 {
     [SerializeField] private GameObject interactUI;
+    [SerializeField] private bool isRestart;
 
     [SerializeField] [NonReorderable] private List<RewardInfo> listOfRewardInfos = new List<RewardInfo>();
 
@@ -36,8 +38,19 @@ public class RewardObject : MonoBehaviour
         RewardInfo[] randRewardInfos = RewardManager.Instance.GetCommonAugment();
 
         listOfRewardInfos = randRewardInfos.ToList();
-        FindObjectOfType<UIManager>().RefreshGetReward(listOfRewardInfos);
+        FindObjectOfType<UIManager>().RefreshGetReward(listOfRewardInfos, this);
         
         // gameObject.SetActive(false);
+    }
+
+    public void OnChoseReward()
+    {
+        if (isRestart)
+            Invoke(nameof(RestartScene), 0.5f);
+    }
+
+    private void RestartScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

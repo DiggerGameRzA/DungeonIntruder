@@ -139,7 +139,7 @@ MonoBehaviour:
   damage: 5
   dmgIndicator: {fileID: 9156341747878459996, guid: 5e75d4a16bf74de468b6892498825c16,
     type: 3}
-  indicatorOffset: {x: 0.5, y: 0.5}
+  indicatorOffset: {x: 0.1, y: 0.1}
 --- !u!58 &5120120046683191982
 CircleCollider2D:
   m_ObjectHideFlags: 0

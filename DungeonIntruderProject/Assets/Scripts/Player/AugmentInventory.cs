@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class AugmentInventory : MonoBehaviour
+public class AugmentInventory : Singleton<AugmentInventory>
 {
     [SerializeField] [NonReorderable] private List<RewardInfo> listOfAugments = new List<RewardInfo>();
 

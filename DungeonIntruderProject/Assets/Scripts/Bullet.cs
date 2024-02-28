@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -23,7 +24,7 @@ public class Bullet : MonoBehaviour
         }
         if (isFromEnemy)
         {
-            if (col.CompareTag("Player"))
+            if (col.CompareTag("Player") && col.isTrigger)
             {
                 float posX = Random.Range(-indicatorOffset.x, indicatorOffset.x);
                 float posY = Random.Range(-indicatorOffset.y, indicatorOffset.y);
@@ -31,14 +32,17 @@ public class Bullet : MonoBehaviour
                 GameObject dmgI = Instantiate(dmgIndicator, transform.position + pos, Quaternion.identity);
                 dmgI.GetComponent<TextMesh>().text = Mathf.RoundToInt(damage).ToString();
 
-                Destroy(dmgI, 0.5f);
+                float dmgPos = dmgI.transform.position.y;
+                dmgI.transform.DOLocalMoveY(dmgPos + 1f, 1f).SetEase(Ease.OutCubic);
+
+                Destroy(dmgI, 1f);
                 col.GetComponent<Player>().TakeDamage(damage);
                 Destroy(gameObject);
             }
         }
-        else if (col.CompareTag("Enemy"))
+        else if (col.CompareTag("Enemy") && col.isTrigger)
         {
-            IGunStats gun = WeaponManager.Instance.currentGun;
+            GunStats gun = WeaponManager.Instance.currentGun;
             damage = gun.Damage + (gun.ModifierInfo.dmgPercentage / 100 * gun.Damage);
 
             float posX = Random.Range(-indicatorOffset.x, indicatorOffset.x);
@@ -46,8 +50,11 @@ public class Bullet : MonoBehaviour
             Vector3 pos = new Vector3(posX, posY, 0);
             GameObject dmgI = Instantiate(dmgIndicator, transform.position + pos, Quaternion.identity);
             dmgI.GetComponent<TextMesh>().text = Mathf.RoundToInt(damage).ToString();
+            
+            float dmgPos = dmgI.transform.position.y;
+            dmgI.transform.DOLocalMoveY(dmgPos + 1f, 1f).SetEase(Ease.OutCubic);
 
-            Destroy(dmgI, 0.5f);
+            Destroy(dmgI, 1f);
             col.GetComponent<Enemy>().health.TakeDamage(damage);
             Destroy(gameObject);
         }

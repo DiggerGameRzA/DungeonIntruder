@@ -18,13 +18,13 @@ public class GunInventory : Singleton<GunInventory>
         for (int i = 0; i < gSlots.Count - slotIndex; i++)
             gSlots.Add(null);
     }
-    public void AddWeapon(IInventoryItem item)
+    public void AddWeapon(Item item)
     {
         int empty = FindEmptySlot();
-        gSlots[empty] = (GunStats)item.GetIGunStats();
+        gSlots[empty] = (GunStats)item.GetGunStats();
         currentSlot = empty;
 
-        WeaponManager.Instance.currentGun = item.GetIGunStats();
+        WeaponManager.Instance.currentGun = item.GetGunStats();
         ShowGun(WeaponManager.Instance.currentGun.Name);
         FindObjectOfType<UIManager>().PickUpText(item);
         item.OnPickUp();

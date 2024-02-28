@@ -8,10 +8,12 @@ public class AugmentTab : MonoBehaviour
 {
     [SerializeField] private RewardInfo rewardInfo;
     [SerializeField] private Text textDes;
+    [SerializeField] private RewardObject obj;
 
-    public void RefreshUI(RewardInfo rewardInfo)
+    public void RefreshUI(RewardInfo rewardInfo, RewardObject obj)
     {
         this.rewardInfo = rewardInfo;
+        this.obj = obj;
 
         switch (rewardInfo.AugmentType)
         {
@@ -45,7 +47,8 @@ public class AugmentTab : MonoBehaviour
 
     public void OnChooseAugment()
     {
-        FindObjectOfType<Player>().GetAugmentInv().AddAugment(rewardInfo);
+        AugmentInventory.Instance.AddAugment(rewardInfo);
         FindObjectOfType<UIManager>().DisableGetReward();
+        obj.OnChoseReward();
     }
 }

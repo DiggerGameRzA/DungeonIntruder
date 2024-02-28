@@ -29,6 +29,7 @@ public class Health : MonoBehaviour
 
     private void OnDead()
     {
+        FindObjectOfType<SpawnManager>()?.OnEnemyKilled();
         Destroy(this.gameObject);
     }
 }

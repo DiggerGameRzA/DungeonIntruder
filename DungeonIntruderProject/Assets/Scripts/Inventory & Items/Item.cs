@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item : MonoBehaviour, IInventoryItem
+public class Item : MonoBehaviour
 {
     [SerializeField] string _name = "";
     [SerializeField] Sprite _image = null;
@@ -35,12 +35,12 @@ public class Item : MonoBehaviour, IInventoryItem
             ShowUI(false);
         }
     }
-    public IGunStats GetIGunStats()
+    public GunStats GetGunStats()
     {
-        IGunStats gunStats = null;
+        GunStats gunStats = null;
         if (GetComponent<GunStats>() != null)
         {
-            gunStats = GetComponent<IGunStats>();
+            gunStats = GetComponent<GunStats>();
         }
         return gunStats;
     }

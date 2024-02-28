@@ -23,6 +23,7 @@ public class SpellInfo : ScriptableObject
         {
             case SpellType.Heal:
                 Debug.Log("Heal");
+                player.healParticle.gameObject.SetActive(true);
                 player.TakeHeal(actionValue);
                 break;
             case SpellType.Damage:

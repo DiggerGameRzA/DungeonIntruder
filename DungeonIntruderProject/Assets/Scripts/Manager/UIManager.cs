@@ -12,6 +12,8 @@ public class UIManager : MonoBehaviour
     public Text manaText;
     Player player;
 
+    [SerializeField] public SpellUICtrl spellUICtrl;
+    
     [SerializeField] private GameObject groupReward;
     [SerializeField] private Transform contentReward;
     [SerializeField] private AugmentTab prefabAugTab;
@@ -20,6 +22,7 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         player = FindObjectOfType<Player>();
+        Invoke(nameof(UpdateAll), 0.2f);
         // ammoText.text = FindObjectOfType<Player>().GetComponent<Stats>().currentAmmo.ToString();
     }
 
@@ -28,7 +31,7 @@ public class UIManager : MonoBehaviour
         slotIndex.text = "slot " + GunInventory.Instance.currentSlot;
     }
 
-    public void RefreshGetReward(List<RewardInfo> rewardInfos)
+    public void RefreshGetReward(List<RewardInfo> rewardInfos, RewardObject obj)
     {
         groupReward.SetActive(true);
 
@@ -42,7 +45,7 @@ public class UIManager : MonoBehaviour
         foreach (var rewardInfo in rewardInfos)
         {
             AugmentTab tab = Instantiate(prefabAugTab, contentReward);
-            tab.RefreshUI(rewardInfo);
+            tab.RefreshUI(rewardInfo, obj);
             listOfAugTabs.Add(tab);
             tab.gameObject.SetActive(true);
         }
@@ -63,9 +66,9 @@ public class UIManager : MonoBehaviour
     {
         // ammoText.text = player.GetStats().currentAmmo.ToString();
     }
-    public void PickUpText(IInventoryItem item)
+    public void PickUpText(Item item)
     {
-        gunText.text = "You got " + item.GetIGunStats().ModifierInfo.name + " " + item.Name;
+        gunText.text = "You got " + item.GetGunStats().ModifierInfo.name + " " + item.Name;
     }
 
     public void UpdateHP()

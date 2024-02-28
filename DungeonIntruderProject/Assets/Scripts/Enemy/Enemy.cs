@@ -14,12 +14,17 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GameObject prefabBullet;
     [SerializeField] private Player _player;
     [SerializeField] private NavMeshAgent agent;
-    void Start()
+
+    private void Awake()
     {
-        tempTime = delayFireTime;
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+    }
+
+    void Start()
+    {
+        tempTime = delayFireTime;
         agent.speed = speed;
     }
 

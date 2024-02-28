@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement
+public class PlayerMovement : MonoBehaviour
 {
     Player player;
     Stats stats;
@@ -32,7 +32,7 @@ public class PlayerMovement
         if (GetMovementDir().normalized != Vector2.zero)
         {
             player.SwitchState(PlayerState.Evading);
-            InputManager.Instance.tempEvadeTime = stats.evadeCooldown;
+            FindObjectOfType<InputManager>().tempEvadeTime = stats.evadeCooldown;
 
             Vector3 startPos = transform.position;
 

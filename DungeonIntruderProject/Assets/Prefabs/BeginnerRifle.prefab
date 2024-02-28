@@ -197,9 +197,9 @@ MonoBehaviour:
   _name: Beginner Rifle
   _type: 2
   _damage: 7
-  _fireRate: 3
+  _fireRate: 5
   _cost: 10
-  _velocity: 20
+  _velocity: 15
   _bullet: {fileID: -2028842785020186885, guid: e9de045e35cf91a46b161b698bd87408,
     type: 3}
   _modifierInfo:

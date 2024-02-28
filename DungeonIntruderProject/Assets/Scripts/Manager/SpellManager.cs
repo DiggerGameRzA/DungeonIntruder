@@ -6,21 +6,8 @@ using UnityEngine;
 public class SpellManager : Singleton<SpellManager>
 {
     private Player player;
-    [SerializeField] private List<SpellInfo> listOfSpellInfos = new List<SpellInfo>();
+    [SerializeField] public List<SpellInfo> listOfSpellInfos = new List<SpellInfo>();
     [SerializeField] private List<SpellInput> listOfSpellInputs = new List<SpellInput>();
-
-    [Header("UIs")]
-    [SerializeField] private GameObject groupPanel;
-    [SerializeField] private Transform tabContent;
-    [SerializeField] private SpellInputTab tabUp;
-    [SerializeField] private SpellInputTab tabDown;
-    [SerializeField] private SpellInputTab tabRight;
-    [SerializeField] private SpellInputTab tabLeft;
-    [SerializeField] private List<SpellInputTab> listOfInputTabs = new List<SpellInputTab>();
-    
-    [SerializeField] private Transform spellContent;
-    [SerializeField] private SpellTab spellTab;
-    [SerializeField] private List<SpellTab> listOfSpellTabs = new List<SpellTab>();
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
@@ -28,6 +15,7 @@ public class SpellManager : Singleton<SpellManager>
 
     void Update()
     {
+        SpellUICtrl uiCtrl = FindObjectOfType<UIManager>().spellUICtrl;
         if (player != null)
         {
             if (player.State == PlayerState.Casting && listOfSpellInputs.Count < 7)
@@ -35,77 +23,30 @@ public class SpellManager : Singleton<SpellManager>
                 if (Input.GetKeyDown(KeyCode.W))
                 {
                     listOfSpellInputs.Add(SpellInput.Up);
-                    
-                    SpellInputTab tab = Instantiate(tabUp, tabContent);
-                    listOfInputTabs.Add(tab);
-                    tab.gameObject.SetActive(true);
+                    uiCtrl.AddInput(SpellInput.Up);
                 }
                 if (Input.GetKeyDown(KeyCode.S))
                 {
                     listOfSpellInputs.Add(SpellInput.Down);
-                    
-                    SpellInputTab tab = Instantiate(tabDown, tabContent);
-                    listOfInputTabs.Add(tab);
-                    tab.gameObject.SetActive(true);
+                    uiCtrl.AddInput(SpellInput.Down);
                 }
                 if (Input.GetKeyDown(KeyCode.D))
                 {
                     listOfSpellInputs.Add(SpellInput.Right);
-                    
-                    SpellInputTab tab = Instantiate(tabRight, tabContent);
-                    listOfInputTabs.Add(tab);
-                    tab.gameObject.SetActive(true);
+                    uiCtrl.AddInput(SpellInput.Right);
                 }
                 if (Input.GetKeyDown(KeyCode.A))
                 {
                     listOfSpellInputs.Add(SpellInput.Left);
-                    
-                    SpellInputTab tab = Instantiate(tabLeft, tabContent);
-                    listOfInputTabs.Add(tab);
-                    tab.gameObject.SetActive(true);
+                    uiCtrl.AddInput(SpellInput.Left);
                 }
             }
-        }
-    }
-
-    public void EnableUI(bool isEnable)
-    {
-        groupPanel.SetActive(isEnable);
-        if (!isEnable)
-        {
-            foreach (var tab in listOfInputTabs)
-            {
-                Destroy(tab.gameObject);
-            }
-            listOfInputTabs.Clear();
-        }
-        else
-        {
-            RefreshUI();
         }
     }
 
     public void ClearInputList()
     {
         listOfSpellInputs.Clear();
-    }
-
-    public void RefreshUI()
-    {
-        foreach (var spell in listOfSpellTabs)
-        {
-            Destroy(spell.gameObject);
-        }
-        listOfSpellTabs.Clear();
-        
-        spellTab.gameObject.SetActive(false);
-        foreach (var spellInfo in listOfSpellInfos)
-        {
-            SpellTab tab = Instantiate(spellTab, spellContent);
-            tab.gameObject.SetActive(true);
-            listOfSpellTabs.Add(tab);
-            tab.RefreshUI(spellInfo);
-        }
     }
 
     public void ConfirmCastSpell()
