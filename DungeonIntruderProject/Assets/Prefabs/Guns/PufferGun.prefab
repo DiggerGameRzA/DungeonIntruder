@@ -195,6 +195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gunName: Puffer Gun
+  _sprite: {fileID: 5388674294171624217}
   _type: 2
   _pattern: 1
   _damage: 10

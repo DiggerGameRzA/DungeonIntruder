@@ -71,13 +71,24 @@ public class InputManager : MonoBehaviour
                 {
                     if (tempFireTime <= 0)
                     {
-                        WeaponManager.Instance.Fire();
+                        if (gun.Pattern == GunPattern.Auto)
+                        {
+                            WeaponManager.Instance.Fire();
+                        }
+                        else if (gun.Pattern == GunPattern.Beam)
+                        {
+                            WeaponManager.Instance.FireBeam();
+                        }
 
                         // player.GetStats().currentAmmo -= cost;
                         FindObjectOfType<UIManager>().UpdateAmmo();
                         float fireRate = gun.FireRate + (gun.ModifierInfo.fireRatePercentage / 100f * gun.FireRate);
                         tempFireTime = 1 / fireRate;
                     }
+                }
+                else
+                {
+                    WeaponManager.Instance.DestroyBeam();
                 }
             }
             
@@ -87,7 +98,14 @@ public class InputManager : MonoBehaviour
                 {
                     if (tempFireTime <= 0)
                     {
-                        WeaponManager.Instance.Fire();
+                        if (gun.Pattern == GunPattern.Single)
+                        {
+                            WeaponManager.Instance.Fire();
+                        }
+                        else if (gun.Pattern == GunPattern.Burst)
+                        {
+                            WeaponManager.Instance.FireBurst();
+                        }
 
                         // player.GetStats().currentAmmo -= cost;
                         FindObjectOfType<UIManager>().UpdateAmmo();
