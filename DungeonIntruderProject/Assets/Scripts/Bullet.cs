@@ -42,7 +42,7 @@ public class Bullet : MonoBehaviour
                 float posX = Random.Range(-indicatorOffset.x, indicatorOffset.x);
                 float posY = Random.Range(-indicatorOffset.y, indicatorOffset.y);
                 Vector3 pos = new Vector3(posX, posY, 0);
-                GameObject dmgI = Instantiate(dmgIndicator, transform.position + pos, Quaternion.identity);
+                GameObject dmgI = Instantiate(dmgIndicator, col.transform.position + pos, Quaternion.identity);
                 dmgI.GetComponent<TextMesh>().text = Mathf.RoundToInt(damage).ToString();
 
                 float dmgPos = dmgI.transform.position.y;
@@ -61,7 +61,7 @@ public class Bullet : MonoBehaviour
             float posX = Random.Range(-indicatorOffset.x, indicatorOffset.x);
             float posY = Random.Range(-indicatorOffset.y, indicatorOffset.y);
             Vector3 pos = new Vector3(posX, posY, 0);
-            GameObject dmgI = Instantiate(dmgIndicator, transform.position + pos, Quaternion.identity);
+            GameObject dmgI = Instantiate(dmgIndicator, col.transform.position + pos, Quaternion.identity);
             dmgI.GetComponent<TextMesh>().text = Mathf.RoundToInt(damage).ToString();
             
             float dmgPos = dmgI.transform.position.y;

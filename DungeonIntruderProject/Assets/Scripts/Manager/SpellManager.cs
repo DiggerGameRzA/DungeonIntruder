@@ -8,9 +8,11 @@ public class SpellManager : Singleton<SpellManager>
     private Player player;
     [SerializeField] public List<SpellInfo> listOfSpellInfos = new List<SpellInfo>();
     [SerializeField] private List<SpellInput> listOfSpellInputs = new List<SpellInput>();
+    
+    [SerializeField] private GameObject prefabExplosion;
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        
     }
 
     void Update()
@@ -41,6 +43,10 @@ public class SpellManager : Singleton<SpellManager>
                     uiCtrl.AddInput(SpellInput.Left);
                 }
             }
+        }
+        else
+        {
+            player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         }
     }
 
@@ -82,5 +88,13 @@ public class SpellManager : Singleton<SpellManager>
         }
 
         return null;
+    }
+    
+    public void InitExplosion(Player player, SpellInfo spellInfo)
+    {
+        GameObject go = Instantiate(prefabExplosion, player.transform.position, Quaternion.identity);
+        go.GetComponent<Explosion>().damage = spellInfo.actionValue;
+        go.GetComponent<Explosion>().radius = spellInfo.actionDistance;
+        Destroy(go, 1f);
     }
 }

@@ -86,7 +86,7 @@ public class UIManager : Singleton<UIManager>
     }
     public void UpdateMana()
     {
-        manaText.text = $"HP: {player.GetStats().currentMana}/{player.GetTrueMaxMana()}";
+        manaText.text = $"Mana: {player.GetStats().currentMana}/{player.GetTrueMaxMana()}";
     }
 
     private GunStats replaceGun = null;

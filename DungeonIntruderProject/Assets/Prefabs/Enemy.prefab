@@ -81,7 +81,7 @@ MonoBehaviour:
   health: {fileID: 2579035744629744340}
   speed: 2
   sprite: {fileID: 2579035744864036018}
-  delayFireTime: 0.5
+  delayFireTime: 3
   tempTime: 0
   prefabBullet: {fileID: 3845082738917940399, guid: e9de045e35cf91a46b161b698bd87408,
     type: 3}

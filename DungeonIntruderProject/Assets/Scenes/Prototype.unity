@@ -6737,7 +6737,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a1747e945599e346ade26327a949497, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  listOfAugments: []
+  listOfAugments:
+  - <Rarity>k__BackingField: 0
+    <IsGun>k__BackingField: 0
+    <GunInfo>k__BackingField: {fileID: 0}
+    <AugmentType>k__BackingField: 2
+    <Value>k__BackingField: 100
 --- !u!4 &412833726
 Transform:
   m_ObjectHideFlags: 0
@@ -7354,7 +7359,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -15.09, y: 3.08, z: -10.999999}
+  m_LocalPosition: {x: -15.09, y: 3.08, z: -9.916667}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -11058,7 +11063,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1648628597}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -15.09, y: 3.08, z: -10.999999}
+  m_LocalPosition: {x: -15.09, y: 3.08, z: -9.916667}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1088931538}
@@ -11692,7 +11697,7 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   maxMana: 50
-  currentMana: 50
+  currentMana: 150
   shield: 0
   healingPercentage: 0
   collectRange: 50
@@ -12143,7 +12148,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   listOfSpellInfos:
   - {fileID: 11400000, guid: 9b2f82954fcd9e94bb0e31aef3c4d3dd, type: 2}
+  - {fileID: 11400000, guid: 229b1dfe4cb1cd04eb0c652b86a5c9e4, type: 2}
   listOfSpellInputs: 
+  prefabExplosion: {fileID: 2121392412258973623, guid: 2f1caddd7f92ce14c8c179e8224bba81,
+    type: 3}
 --- !u!4 &1916181560
 Transform:
   m_ObjectHideFlags: 0

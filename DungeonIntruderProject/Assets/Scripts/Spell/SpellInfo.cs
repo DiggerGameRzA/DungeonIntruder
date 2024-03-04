@@ -31,6 +31,7 @@ public class SpellInfo : ScriptableObject
                 break;
             case SpellType.DamageAoE:
                 Debug.Log("Damage AoE");
+                SpellManager.Instance.InitExplosion(player, this);
                 break;
         }
     }
