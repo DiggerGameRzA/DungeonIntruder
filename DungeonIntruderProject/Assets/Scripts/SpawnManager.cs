@@ -10,6 +10,7 @@ public class SpawnManager : MonoBehaviour
     public Transform[] spawn;
 
     [SerializeField] private RewardObject rewardObject;
+    [SerializeField] private PortalObject portalObject;
 
     private int enemyCount = 0;
     void Start()
@@ -23,6 +24,9 @@ public class SpawnManager : MonoBehaviour
         // }
 
         rewardObject.gameObject.SetActive(false);
+        portalObject = FindObjectOfType<PortalObject>();
+        portalObject?.gameObject.SetActive(false);
+        
         foreach (var pos in spawn)
         {
             enemyCount++;
@@ -36,6 +40,7 @@ public class SpawnManager : MonoBehaviour
         if (enemyCount <= 0)
         {
             rewardObject.gameObject.SetActive(true);
+            portalObject?.gameObject.SetActive(true);
         }
     }
     void SpawnAndRandomMod(GameObject gun, Vector3 pos)

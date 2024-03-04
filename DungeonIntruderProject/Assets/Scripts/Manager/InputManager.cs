@@ -182,6 +182,15 @@ public class InputManager : MonoBehaviour
             rewardObject.EnableRewardsUI();
         }
     }
+    public void EnterPortal(PortalObject portalObject)
+    {
+        if (portalObject == null) return;
+        
+        if (Input.GetButtonDown("Collect"))
+        {
+            portalObject.OnEnterPortal();
+        }
+    }
     
     public void CollectItem(Item item)
     {

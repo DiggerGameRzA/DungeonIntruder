@@ -51,15 +51,4 @@ public class RewardObject : MonoBehaviour
         
         // gameObject.SetActive(false);
     }
-
-    public void OnChoseReward()
-    {
-        if (isRestart)
-            Invoke(nameof(RestartScene), 0.5f);
-    }
-
-    private void RestartScene()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
 }

@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     [SerializeField] public ParticleSystem healParticle;
 
     private RewardObject rewardObj = null;
+    private PortalObject portalObj = null;
 
     void Start()
     {
@@ -47,6 +48,7 @@ public class Player : MonoBehaviour
                 FindObjectOfType<InputManager>().SetCanMove(true);
                 FindObjectOfType<InputManager>().SetCanEvade(true);
                 FindObjectOfType<InputManager>().ObtainReward(rewardObj);
+                FindObjectOfType<InputManager>().EnterPortal(portalObj);
                 break;
             case PlayerState.Casting:
                 FindObjectOfType<UIManager>().spellUICtrl.EnableUI(true);
@@ -76,6 +78,7 @@ public class Player : MonoBehaviour
         else if (col.CompareTag("Reward"))
         {
             rewardObj = col.GetComponent<RewardObject>();
+            portalObj = col.GetComponent<PortalObject>();
         }
     }
     private void OnTriggerExit2D(Collider2D col)
@@ -87,6 +90,7 @@ public class Player : MonoBehaviour
         else if (col.CompareTag("Reward"))
         {
             rewardObj = null;
+            portalObj = null;
         }
     }
 

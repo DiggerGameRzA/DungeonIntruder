@@ -72,6 +72,5 @@ public class AugmentTab : MonoBehaviour
         
         
         FindObjectOfType<UIManager>().DisableGetReward();
-        obj.OnChoseReward();
     }
 }
