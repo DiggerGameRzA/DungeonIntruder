@@ -58,7 +58,8 @@ public class AugmentTab : MonoBehaviour
         {
             if (GunInventory.Instance.IsInventoryFull())
             {
-                // Show replace gun ui
+                Debug.Log("Inventory is full!");
+                UIManager.Instance.ShowReplaceGun(rewardInfo.GunInfo);
             }
             else
             {

@@ -32,6 +32,12 @@ public class GunInventory : Singleton<GunInventory>
         // FindObjectOfType<UIManager>().PickUpText(gunStats);
         // item.OnPickUp();
     }
+    public void AddGunToSlot(GunStats gunStats, int slot)
+    {
+        gSlots[slot] = gunStats;
+
+        WeaponManager.Instance.currentGun = gunStats;
+    }
     int FindEmptySlot()
     {
         for (int i = 0; i < gSlots.Count; i++)

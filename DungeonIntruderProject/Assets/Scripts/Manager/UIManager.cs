@@ -19,6 +19,15 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private AugmentTab prefabAugTab;
     [SerializeField] private List<AugmentTab> listOfAugTabs = new List<AugmentTab>();
 
+    [Header("Gun Replace")] 
+    [SerializeField] private GameObject groupReplace;
+    [SerializeField] private Image imgGun1;
+    [SerializeField] private Image imgGun2;
+    [SerializeField] private Text textGun1;
+    [SerializeField] private Text textGun2;
+    [SerializeField] private Image imgNewGun;
+    [SerializeField] private Text textNewGun;
+
     void Start()
     {
         player = FindObjectOfType<Player>();
@@ -78,5 +87,38 @@ public class UIManager : Singleton<UIManager>
     public void UpdateMana()
     {
         manaText.text = $"HP: {player.GetStats().currentMana}/{player.GetTrueMaxMana()}";
+    }
+
+    private GunStats replaceGun = null;
+    public void ShowReplaceGun(GunStats newGun)
+    {
+        replaceGun = newGun;
+        GunInventory gunInv = GunInventory.Instance;
+        
+        groupReplace.SetActive(true);
+
+        imgGun1.sprite = gunInv.gSlots[0].Sprite.sprite;
+        imgGun1.color = gunInv.gSlots[0].Sprite.color;
+        
+        imgGun2.sprite = gunInv.gSlots[1].Sprite.sprite;
+        imgGun2.color = gunInv.gSlots[1].Sprite.color;
+        
+        textGun1.text = gunInv.gSlots[0].GunName;
+        textGun2.text = gunInv.gSlots[1].GunName;
+
+        imgNewGun.sprite = newGun.Sprite.sprite;
+        imgNewGun.color = newGun.Sprite.color;
+
+        textNewGun.text = newGun.GunName;
+    }
+
+    public void OnClick_ReplaceGun(int slot)
+    {
+        if (replaceGun!= null)
+        {
+            GunInventory.Instance.AddGunToSlot(replaceGun, slot);
+        }
+        replaceGun = null;
+        groupReplace.SetActive(false);
     }
 }
