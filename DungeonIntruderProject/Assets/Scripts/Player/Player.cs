@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (FindObjectOfType<InputManager>().canMove)
+        if (InputManager.Instance.canMove)
         {
             movement.Run();
         }
@@ -44,23 +44,23 @@ public class Player : MonoBehaviour
         switch (State)
         {
             case PlayerState.Combat:
-                FindObjectOfType<UIManager>().spellUICtrl.EnableUI(false);
-                FindObjectOfType<InputManager>().SetCanMove(true);
-                FindObjectOfType<InputManager>().SetCanEvade(true);
-                FindObjectOfType<InputManager>().ObtainReward(rewardObj);
-                FindObjectOfType<InputManager>().EnterPortal(portalObj);
+                UIManager.Instance.spellUICtrl.EnableUI(false);
+                InputManager.Instance.SetCanMove(true);
+                InputManager.Instance.SetCanEvade(true);
+                InputManager.Instance.ObtainReward(rewardObj);
+                InputManager.Instance.EnterPortal(portalObj);
                 break;
             case PlayerState.Casting:
-                FindObjectOfType<UIManager>().spellUICtrl.EnableUI(true);
-                FindObjectOfType<InputManager>().SetCanMove(false);
-                FindObjectOfType<InputManager>().SetCanEvade(false);
+                UIManager.Instance.spellUICtrl.EnableUI(true);
+                InputManager.Instance.SetCanMove(false);
+                InputManager.Instance.SetCanEvade(false);
                 movement.StopRun();
                 break;
             case PlayerState.StandBy:
                 break;
             case PlayerState.Evading:
-                FindObjectOfType<InputManager>().SetCanMove(false);
-                FindObjectOfType<InputManager>().SetCanEvade(false);
+                InputManager.Instance.SetCanMove(false);
+                InputManager.Instance.SetCanEvade(false);
                 StartCoroutine(OnIFraming(0f, 0.4f));
                 SwitchState(PlayerState.Combat, 0.2f);
                 break;
@@ -164,7 +164,7 @@ public class Player : MonoBehaviour
         {
             stats.currentMana = GetTrueMaxMana();
         }
-        FindObjectOfType<UIManager>().UpdateMana();
+        UIManager.Instance.UpdateMana();
     }
     public void CostMana(float mana)
     {
@@ -173,7 +173,7 @@ public class Player : MonoBehaviour
         {
             stats.currentMana = 0;
         }
-        FindObjectOfType<UIManager>().UpdateMana();
+        UIManager.Instance.UpdateMana();
     }
     
     public void TakeHeal(float heal)
@@ -183,7 +183,7 @@ public class Player : MonoBehaviour
         {
             stats.currentHP = GetTrueMaxHP();
         }
-        FindObjectOfType<UIManager>().UpdateHP();
+        UIManager.Instance.UpdateHP();
     }
     
     public void TakeDamage(float dmg)
@@ -194,7 +194,7 @@ public class Player : MonoBehaviour
             stats.currentHP = 0;
             OnDead();
         }
-        FindObjectOfType<UIManager>().UpdateHP();
+        UIManager.Instance.UpdateHP();
     }
 
     public void OnDead()

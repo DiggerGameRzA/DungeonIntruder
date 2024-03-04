@@ -9,7 +9,7 @@ public class Hand : MonoBehaviour
     private float mouseRotZ;
     private void Start()
     {
-        inputManager = FindObjectOfType<InputManager>();
+        inputManager = InputManager.Instance;
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
     void Update()

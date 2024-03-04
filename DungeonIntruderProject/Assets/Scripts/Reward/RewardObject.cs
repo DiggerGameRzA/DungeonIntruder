@@ -47,7 +47,7 @@ public class RewardObject : MonoBehaviour
         }
 
         listOfRewardInfos = randRewardInfos.ToList();
-        FindObjectOfType<UIManager>().RefreshGetReward(listOfRewardInfos, this);
+        UIManager.Instance.RefreshGetReward(listOfRewardInfos, this);
         
         // gameObject.SetActive(false);
     }

@@ -39,7 +39,7 @@ public class AugmentInventory : Singleton<AugmentInventory>
                 throw new ArgumentOutOfRangeException();
         }
         
-        FindObjectOfType<UIManager>().UpdateAll();
+        UIManager.Instance.UpdateAll();
     }
 
     public float GetAugmentValue(AugmentType type)

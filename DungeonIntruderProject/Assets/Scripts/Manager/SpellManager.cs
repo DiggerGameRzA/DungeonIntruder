@@ -15,7 +15,7 @@ public class SpellManager : Singleton<SpellManager>
 
     void Update()
     {
-        SpellUICtrl uiCtrl = FindObjectOfType<UIManager>().spellUICtrl;
+        SpellUICtrl uiCtrl = UIManager.Instance.spellUICtrl;
         if (player != null)
         {
             if (player.State == PlayerState.Casting && listOfSpellInputs.Count < 7)

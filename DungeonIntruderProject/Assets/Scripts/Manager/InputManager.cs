@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InputManager : MonoBehaviour
+public class InputManager : Singleton<InputManager>
 {
     Player player;
 
     [SerializeField] public bool canEvade { get; private set; }
     [SerializeField] public bool canMove { get; private set; }
 
-    [SerializeField] float tempFireTime = 0;
-    public float tempEvadeTime = 0f;
+    private float tempFireTime = 0;
+    [HideInInspector] public float tempEvadeTime = 0f;
     float mouseRotZ = 0;
     void Start()
     {

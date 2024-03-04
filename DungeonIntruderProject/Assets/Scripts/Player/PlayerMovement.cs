@@ -32,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
         if (GetMovementDir().normalized != Vector2.zero)
         {
             player.SwitchState(PlayerState.Evading);
-            FindObjectOfType<InputManager>().tempEvadeTime = stats.evadeCooldown;
+            InputManager.Instance.tempEvadeTime = stats.evadeCooldown;
 
             Vector3 startPos = transform.position;
 
