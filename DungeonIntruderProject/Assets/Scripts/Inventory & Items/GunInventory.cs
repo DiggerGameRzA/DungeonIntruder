@@ -20,6 +20,8 @@ public class GunInventory : Singleton<GunInventory>
         {
             gSlots.Add(null);
         }
+
+        WeaponManager.Instance.EquipGun();
     }
     public void AddWeapon(GunStats gunStats)
     {

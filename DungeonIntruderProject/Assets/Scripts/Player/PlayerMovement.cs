@@ -17,10 +17,17 @@ public class PlayerMovement : MonoBehaviour
         transform = player.GetTransform();
         stats = player.GetStats();
     }
+
+    public void SetInfos(Player player)
+    {
+        this.player = player;
+        rb = player.GetRigidBody();
+        transform = player.GetTransform();
+        stats = player.GetStats();
+    }
     public void Run()
     {
         rb.velocity = GetMovementDir().normalized * player.GetTrueMoveSpeed();
-        // controller.Move(GetMovementDir() * stats.movementSpeed * Time.deltaTime);
     }
 
     public void StopRun()

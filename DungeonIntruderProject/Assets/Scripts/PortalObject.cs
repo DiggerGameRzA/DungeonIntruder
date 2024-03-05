@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class PortalObject : MonoBehaviour
 {
+    [SerializeField] private int scene;
     [SerializeField] private GameObject interactUI;
     private void Start()
     {
@@ -29,6 +30,6 @@ public class PortalObject : MonoBehaviour
 
     public void OnEnterPortal()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(scene);
     }
 }

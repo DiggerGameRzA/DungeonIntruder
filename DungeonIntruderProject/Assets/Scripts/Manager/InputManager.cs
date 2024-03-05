@@ -25,9 +25,11 @@ public class InputManager : Singleton<InputManager>
             return;
         if (!player.gameObject.activeInHierarchy)
             return;
-        
-        tempEvadeTime -= Time.deltaTime;
-        tempFireTime -= Time.deltaTime;
+
+        if (tempEvadeTime > 0)
+            tempEvadeTime -= Time.deltaTime;
+        if (tempFireTime > 0)
+            tempFireTime -= Time.deltaTime;
 
         
         
@@ -37,7 +39,7 @@ public class InputManager : Singleton<InputManager>
             {
                 canEvade = true;
                 if (Input.GetButtonDown("Evade"))
-                    StartCoroutine(player.movement.Evade());
+                    StartCoroutine(player.GetMovement().Evade());
             }
             else
             {
@@ -64,53 +66,55 @@ public class InputManager : Singleton<InputManager>
                     return;
             }
             
-            GunStats gun = WeaponManager.Instance.currentGun;
-            if (gun.Pattern == GunPattern.Auto || gun.Pattern == GunPattern.Beam)
+            if (WeaponManager.Instance.currentGun != null)
             {
-                if (Input.GetButton("Fire") || Input.GetButton("Fire2"))
+                GunStats gun = WeaponManager.Instance.currentGun;
+                if (gun.Pattern == GunPattern.Auto || gun.Pattern == GunPattern.Beam)
                 {
-                    if (tempFireTime <= 0)
+                    if (Input.GetButton("Fire") || Input.GetButton("Fire2"))
                     {
-                        if (gun.Pattern == GunPattern.Auto)
+                        if (tempFireTime <= 0)
                         {
-                            WeaponManager.Instance.Fire();
-                        }
-                        else if (gun.Pattern == GunPattern.Beam)
-                        {
-                            WeaponManager.Instance.FireBeam();
-                        }
+                            if (gun.Pattern == GunPattern.Auto)
+                            {
+                                WeaponManager.Instance.Fire();
+                            }
+                            else if (gun.Pattern == GunPattern.Beam)
+                            {
+                                WeaponManager.Instance.FireBeam();
+                            }
 
-                        // player.GetStats().currentAmmo -= cost;
-                        FindObjectOfType<UIManager>().UpdateAmmo();
-                        float fireRate = gun.FireRate + (gun.ModifierInfo.fireRatePercentage / 100f * gun.FireRate);
-                        tempFireTime = 1 / fireRate;
+                            // player.GetStats().currentAmmo -= cost;
+                            FindObjectOfType<UIManager>().UpdateAmmo();
+                            float fireRate = gun.FireRate + (gun.ModifierInfo.fireRatePercentage / 100f * gun.FireRate);
+                            tempFireTime = 1 / fireRate;
+                        }
+                    }
+                    else
+                    {
+                        WeaponManager.Instance.DestroyBeam();
                     }
                 }
-                else
+                else if (gun.Pattern == GunPattern.Single || gun.Pattern == GunPattern.Burst)
                 {
-                    WeaponManager.Instance.DestroyBeam();
-                }
-            }
-            
-            else if (gun.Pattern == GunPattern.Single || gun.Pattern == GunPattern.Burst)
-            {
-                if (Input.GetButtonDown("Fire") || Input.GetButtonDown("Fire2"))
-                {
-                    if (tempFireTime <= 0)
+                    if (Input.GetButtonDown("Fire") || Input.GetButtonDown("Fire2"))
                     {
-                        if (gun.Pattern == GunPattern.Single)
+                        if (tempFireTime <= 0)
                         {
-                            WeaponManager.Instance.Fire();
-                        }
-                        else if (gun.Pattern == GunPattern.Burst)
-                        {
-                            WeaponManager.Instance.FireBurst();
-                        }
+                            if (gun.Pattern == GunPattern.Single)
+                            {
+                                WeaponManager.Instance.Fire();
+                            }
+                            else if (gun.Pattern == GunPattern.Burst)
+                            {
+                                WeaponManager.Instance.FireBurst();
+                            }
 
-                        // player.GetStats().currentAmmo -= cost;
-                        FindObjectOfType<UIManager>().UpdateAmmo();
-                        float fireRate = gun.FireRate + (gun.ModifierInfo.fireRatePercentage / 100f * gun.FireRate);
-                        tempFireTime = 1 / fireRate;
+                            // player.GetStats().currentAmmo -= cost;
+                            FindObjectOfType<UIManager>().UpdateAmmo();
+                            float fireRate = gun.FireRate + (gun.ModifierInfo.fireRatePercentage / 100f * gun.FireRate);
+                            tempFireTime = 1 / fireRate;
+                        }
                     }
                 }
             }
@@ -203,7 +207,9 @@ public class InputManager : Singleton<InputManager>
     void SwitchGun(int slot)
     {
         GunInventory inventory = GunInventory.Instance;
-        
+
+        if (inventory.currentSlot == slot)
+            return;
         if (inventory.gSlots.Count <= slot)
             return;
 

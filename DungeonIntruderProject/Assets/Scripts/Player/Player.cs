@@ -7,28 +7,26 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     // CharacterController controller;
-    [SerializeField] private Rigidbody2D rb;
+    private Rigidbody2D rb;
     [SerializeField] private Collider2D collider;
     public PlayerState State;
-    public PlayerMovement movement;
-    [SerializeField] Stats stats;
-    [SerializeField] public Transform gunPos;
-    [SerializeField] public Transform bulletPos;
+    private PlayerMovement movement;
+    Stats stats;
+    public Transform gunPos;
+    public Transform bulletPos;
 
-    [SerializeField] public ParticleSystem healParticle;
+    public ParticleSystem healParticle;
 
     private RewardObject rewardObj = null;
     private PortalObject portalObj = null;
 
     void Start()
     {
-        // controller = GetComponent<CharacterController>();
         rb = GetComponent<Rigidbody2D>();
         stats = GetComponent<Stats>();
-        movement = new PlayerMovement(this);
+        movement = gameObject.AddComponent<PlayerMovement>();
+        movement.SetInfos(this);
         State = PlayerState.Combat;
-        
-        WeaponManager.Instance.EquipGun();
     }
 
     private void FixedUpdate()
@@ -44,14 +42,16 @@ public class Player : MonoBehaviour
         switch (State)
         {
             case PlayerState.Combat:
-                UIManager.Instance.spellUICtrl.EnableUI(false);
+                if (UIManager.Instance.spellUICtrl != null)
+                    UIManager.Instance.spellUICtrl.EnableUI(false);
                 InputManager.Instance.SetCanMove(true);
                 InputManager.Instance.SetCanEvade(true);
                 InputManager.Instance.ObtainReward(rewardObj);
                 InputManager.Instance.EnterPortal(portalObj);
                 break;
             case PlayerState.Casting:
-                UIManager.Instance.spellUICtrl.EnableUI(true);
+                if (UIManager.Instance.spellUICtrl != null)
+                    UIManager.Instance.spellUICtrl.EnableUI(true);
                 InputManager.Instance.SetCanMove(false);
                 InputManager.Instance.SetCanEvade(false);
                 movement.StopRun();
@@ -146,14 +146,20 @@ public class Player : MonoBehaviour
 
     public float GetTrueMaxHP()
     {
+        if (AugmentInventory.Instance == null)
+            return stats.maxHP;
         return stats.maxHP + AugmentInventory.Instance.GetAugmentValue(AugmentType.MaxHp);
     }
     public float GetTrueMoveSpeed()
     {
+        if (AugmentInventory.Instance == null)
+            return stats.movementSpeed;
         return stats.movementSpeed * (1 + (AugmentInventory.Instance.GetAugmentValue(AugmentType.MoveSpeed)) / 100f );
     }
     public float GetTrueMaxMana()
     {
+        if (AugmentInventory.Instance == null)
+            return stats.maxMana;
         return stats.maxMana + AugmentInventory.Instance.GetAugmentValue(AugmentType.MaxMana);
     }
 

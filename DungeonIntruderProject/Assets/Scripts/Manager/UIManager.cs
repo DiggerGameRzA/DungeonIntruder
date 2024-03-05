@@ -37,7 +37,7 @@ public class UIManager : Singleton<UIManager>
 
     void Update()
     {
-        slotIndex.text = "slot " + GunInventory.Instance.currentSlot;
+        // slotIndex.text = "slot " + GunInventory.Instance.currentSlot;
     }
 
     public void RefreshGetReward(List<RewardInfo> rewardInfos, RewardObject obj)
@@ -82,11 +82,13 @@ public class UIManager : Singleton<UIManager>
 
     public void UpdateHP()
     {
-        hpText.text = $"HP: {player.GetStats().currentHP}/{player.GetTrueMaxHP()}";
+        if (hpText != null)
+            hpText.text = $"HP: {player.GetStats().currentHP}/{player.GetTrueMaxHP()}";
     }
     public void UpdateMana()
     {
-        manaText.text = $"Mana: {player.GetStats().currentMana}/{player.GetTrueMaxMana()}";
+        if (manaText != null)
+            manaText.text = $"Mana: {player.GetStats().currentMana}/{player.GetTrueMaxMana()}";
     }
 
     private GunStats replaceGun = null;
