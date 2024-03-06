@@ -22,6 +22,8 @@ public class WeaponManager : Singleton<WeaponManager>
     }
     public void Fire()
     {
+        if (FindObjectOfType<Player>() == null)
+            return;
         bulletSpawn = FindObjectOfType<Player>().bulletPos;
         Bullet go = Instantiate(currentGun.Bullet, bulletSpawn.position, bulletSpawn.rotation);
         go.GetComponent<Rigidbody2D>().velocity = bulletSpawn.right * currentGun.Velocity;
