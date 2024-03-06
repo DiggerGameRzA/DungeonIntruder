@@ -32,6 +32,9 @@ public class Enemy : MonoBehaviour
     {
         if (_player != null)
         {
+            if (!_player.isActiveAndEnabled)
+                return;
+            
             if (Vector2.Distance(_player.transform.position, transform.position) > 10f)
                 return;
             

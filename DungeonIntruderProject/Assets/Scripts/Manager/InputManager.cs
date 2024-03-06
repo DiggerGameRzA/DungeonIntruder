@@ -16,15 +16,13 @@ public class InputManager : Singleton<InputManager>
     {
         canMove = true;
         canEvade = true;
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        player = FindObjectOfType<Player>();
     }
 
     void Update()
     {
         if (player == null)
-            return;
-        if (!player.gameObject.activeInHierarchy)
-            return;
+            player = FindObjectOfType<Player>();
 
         if (tempEvadeTime > 0)
             tempEvadeTime -= Time.deltaTime;
@@ -46,23 +44,16 @@ public class InputManager : Singleton<InputManager>
                 canEvade = false;
             }
             
-            int newSlot = 0;
             if (Input.GetButton("Fire"))
             {
-                newSlot = 0;
                 SwitchGun(0);
-                if (GunInventory.Instance.gSlots.Count <= newSlot)
-                    return;
-                if (GunInventory.Instance.gSlots[newSlot] == null)
+                if (GunInventory.Instance.gSlots[0] == null)
                     return;
             }
             if (Input.GetButton("Fire2"))
             {
-                newSlot = 1;
                 SwitchGun(1);
-                if (GunInventory.Instance.gSlots.Count <= newSlot)
-                    return;
-                if (GunInventory.Instance.gSlots[newSlot] == null)
+                if (GunInventory.Instance.gSlots[1] == null)
                     return;
             }
             

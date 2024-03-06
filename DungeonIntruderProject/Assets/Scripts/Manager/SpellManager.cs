@@ -10,10 +10,6 @@ public class SpellManager : Singleton<SpellManager>
     [SerializeField] private List<SpellInput> listOfSpellInputs = new List<SpellInput>();
     
     [SerializeField] private GameObject prefabExplosion;
-    void Start()
-    {
-        
-    }
 
     void Update()
     {
@@ -46,7 +42,9 @@ public class SpellManager : Singleton<SpellManager>
         }
         else
         {
-            player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+            if (FindObjectOfType<Player>() == null)
+                return;
+            player = FindObjectOfType<Player>();
         }
     }
 
