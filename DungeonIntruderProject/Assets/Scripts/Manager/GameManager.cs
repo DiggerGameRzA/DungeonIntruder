@@ -1,18 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using com.cyborgAssets.inspectorButtonPro;
+using Fusion;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
-    // Start is called before the first frame update
-    void Start()
+    [ProButton] public void HostGame()
     {
-        
+        NetworkManager.Instance.StartGame(GameMode.Host);
     }
-
-    // Update is called once per frame
-    void Update()
+    [ProButton] public void JoinGame()
     {
-        
+        NetworkManager.Instance.StartGame(GameMode.Client);
     }
 }

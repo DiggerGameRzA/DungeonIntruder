@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Fusion;
 using UnityEngine;
 
 public class InputManager : Singleton<InputManager>
@@ -22,7 +23,12 @@ public class InputManager : Singleton<InputManager>
     void Update()
     {
         if (player == null)
-            player = FindObjectOfType<Player>();
+        {
+            if (FindObjectOfType<Player>())
+                player = FindObjectOfType<Player>();
+            else
+                return;
+        }
 
         if (tempEvadeTime > 0)
             tempEvadeTime -= Time.deltaTime;

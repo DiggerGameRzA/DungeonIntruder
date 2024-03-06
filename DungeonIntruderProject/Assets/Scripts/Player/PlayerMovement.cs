@@ -25,9 +25,11 @@ public class PlayerMovement : MonoBehaviour
         transform = player.GetTransform();
         stats = player.GetStats();
     }
-    public void Run()
+    public void Run(Vector2 dir)
     {
-        rb.velocity = GetMovementDir().normalized * player.GetTrueMoveSpeed();
+        // rb.velocity = GetMovementDir().normalized * player.GetTrueMoveSpeed();
+        if (dir != Vector2.zero)
+            rb.velocity = dir.normalized * player.GetTrueMoveSpeed();
     }
 
     public void StopRun()

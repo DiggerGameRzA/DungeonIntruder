@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
+using Fusion;
 using UnityEngine;
 
 [RequireComponent(typeof(Stats))]
-public class Player : MonoBehaviour
+public class Player : NetworkBehaviour
 {
     // CharacterController controller;
     private Rigidbody2D rb;
@@ -20,21 +22,51 @@ public class Player : MonoBehaviour
     private RewardObject rewardObj = null;
     private PortalObject portalObj = null;
 
+    private bool isLoaded = false;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         stats = GetComponent<Stats>();
-        movement = gameObject.AddComponent<PlayerMovement>();
         movement.SetInfos(this);
         State = PlayerState.Combat;
+
+        CinemachineTargetGroup[] targetGroups = FindObjectsOfType<CinemachineTargetGroup>();
+        foreach (var target in targetGroups)
+        {
+            if (target.name == "Target Group")
+                target.AddMember(transform, 1f, 0f);
+        }
+
+        StartCoroutine(WaitForGameStart());
     }
 
     private void FixedUpdate()
     {
+        
+    }
+
+    public override void FixedUpdateNetwork()
+    {
         if (InputManager.Instance.canMove)
         {
-            movement.Run();
+            GetInput(out NetworkInputData data);
+            if (movement == null)
+            {
+                movement = gameObject.AddComponent<PlayerMovement>();
+                movement.SetInfos(this);
+            }
+
+            data.direction.Normalize();
+            if (isLoaded)
+                rb.velocity = data.direction.normalized * GetTrueMoveSpeed();
         }
+    }
+
+    IEnumerator WaitForGameStart()
+    {
+        yield return new WaitUntil(() => NetworkManager.Instance.result != null);
+        isLoaded = true;
     }
 
     private void Update()
@@ -152,6 +184,8 @@ public class Player : MonoBehaviour
     }
     public float GetTrueMoveSpeed()
     {
+        if (stats == null)
+            stats = GetComponent<Stats>();
         if (AugmentInventory.Instance == null)
             return stats.movementSpeed;
         return stats.movementSpeed * (1 + (AugmentInventory.Instance.GetAugmentValue(AugmentType.MoveSpeed)) / 100f );

@@ -85,6 +85,8 @@ public class WeaponManager : Singleton<WeaponManager>
     public void ShowGun(GunStats gun)
     {
         Player player = FindObjectOfType<Player>();
+        if (player == null)
+            return;
         
         Transform guns = player.gunPos;
         SpriteRenderer gunSprite = guns.GetComponent<SpriteRenderer>();
