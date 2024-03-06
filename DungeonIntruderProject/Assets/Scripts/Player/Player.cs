@@ -14,6 +14,7 @@ public class Player : NetworkBehaviour
     public PlayerState State;
     private PlayerMovement movement;
     Stats stats;
+    [SerializeField] private Hand hand;
     public Transform gunPos;
     public Transform bulletPos;
 
@@ -28,7 +29,6 @@ public class Player : NetworkBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         stats = GetComponent<Stats>();
-        movement.SetInfos(this);
         State = PlayerState.Combat;
 
         CinemachineTargetGroup[] targetGroups = FindObjectsOfType<CinemachineTargetGroup>();
@@ -48,9 +48,9 @@ public class Player : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+        GetInput(out NetworkInputData data);
         if (InputManager.Instance.canMove)
         {
-            GetInput(out NetworkInputData data);
             if (movement == null)
             {
                 movement = gameObject.AddComponent<PlayerMovement>();
@@ -61,6 +61,8 @@ public class Player : NetworkBehaviour
             if (isLoaded)
                 rb.velocity = data.direction.normalized * GetTrueMoveSpeed();
         }
+
+        hand.mouseRotZ = InputManager.Instance.GetMousePosition(transform, data.mousePos);
     }
 
     IEnumerator WaitForGameStart()

@@ -253,9 +253,9 @@ public class InputManager : Singleton<InputManager>
     {
         return Input.GetAxis("Horizontal");
     }
-    public float GetMousePosition(Transform player)
+    public float GetMousePosition(Transform player, Vector3 mousePos)
     {
-        Vector3 dif = Camera.main.ScreenToWorldPoint(Input.mousePosition) - player.position;
+        Vector3 dif = mousePos - player.position;
         dif.Normalize();
         mouseRotZ = Mathf.Atan2(dif.y, dif.x) * Mathf.Rad2Deg;
 

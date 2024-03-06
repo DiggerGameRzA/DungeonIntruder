@@ -6,7 +6,7 @@ public class Hand : MonoBehaviour
 {
     InputManager inputManager;
     private Player player;
-    private float mouseRotZ;
+    public float mouseRotZ;
     private void Start()
     {
         inputManager = InputManager.Instance;
@@ -17,7 +17,7 @@ public class Hand : MonoBehaviour
         if (player == null)
             player = FindObjectOfType<Player>();
         
-        mouseRotZ = inputManager.GetMousePosition(transform);
+        // mouseRotZ = inputManager.GetMousePosition(transform);
         if (player.State == PlayerState.Combat || player.State == PlayerState.Casting)
         {
             transform.rotation = Quaternion.Euler(0, 0, mouseRotZ);

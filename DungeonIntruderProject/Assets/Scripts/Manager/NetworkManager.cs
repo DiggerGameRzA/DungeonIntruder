@@ -36,6 +36,7 @@ public class NetworkManager : Singleton<NetworkManager>, INetworkRunnerCallbacks
             SessionName = "TestRoom",
             Scene = scene,
             SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>(),
+            ObjectProvider = new MyObjectProvider()
         });
     }
     
@@ -80,8 +81,11 @@ public class NetworkManager : Singleton<NetworkManager>, INetworkRunnerCallbacks
         Vector2 up = Vector2.up;
         Vector2 dir = right * InputManager.GetHorInput() + up * InputManager.GetVerInput();
 
+        Vector2 dif = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
         NetworkInputData data = new NetworkInputData();
         data.direction += dir;
+        data.mousePos = dif;
 
         input.Set(data);
     }
@@ -160,4 +164,11 @@ public class NetworkManager : Singleton<NetworkManager>, INetworkRunnerCallbacks
 public struct NetworkInputData : INetworkInput
 {
     public Vector2 direction;
+    public Vector2 mousePos;
 }
+
+public class MyObjectProvider : NetworkObjectProviderDefault
+{
+    
+}
+
