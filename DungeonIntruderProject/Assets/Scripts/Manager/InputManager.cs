@@ -17,18 +17,20 @@ public class InputManager : Singleton<InputManager>
     {
         canMove = true;
         canEvade = true;
-        player = FindObjectOfType<Player>();
+        if (NetworkManager.Instance.localPlayer != null)
+            player = NetworkManager.Instance.localPlayer;
     }
 
     void Update()
     {
         if (player == null)
         {
-            if (FindObjectOfType<Player>())
-                player = FindObjectOfType<Player>();
+            if (NetworkManager.Instance.localPlayer != null)
+                player = NetworkManager.Instance.localPlayer;
             else
                 return;
         }
+        player.RPC_SendMouseRot(Camera.main.ScreenToWorldPoint(Input.mousePosition));
 
         if (tempEvadeTime > 0)
             tempEvadeTime -= Time.deltaTime;
@@ -189,7 +191,7 @@ public class InputManager : Singleton<InputManager>
         
         if (Input.GetButtonDown("Collect"))
         {
-            portalObject.OnEnterPortal();
+            portalObject.OnInteractPortal();
         }
     }
     

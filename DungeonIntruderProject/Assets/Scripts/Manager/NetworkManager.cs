@@ -11,16 +11,17 @@ using UnityEngine.SceneManagement;
 public class NetworkManager : Singleton<NetworkManager>, INetworkRunnerCallbacks
 {
     public StartGameResult result;
+    public Player localPlayer;
     [SerializeField] private GameObject _playerPrefab;
-    [SerializeField] private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new();
+    [SerializeField] private Dictionary<PlayerRef, NetworkObject> spawnedCharacters = new();
     
-    private NetworkRunner _runner;
+    public NetworkRunner runner;
 
     public async void StartGame(GameMode mode)
     {
         // Create the Fusion runner and let it know that we will be providing user input
-        _runner = gameObject.AddComponent<NetworkRunner>();
-        _runner.ProvideInput = true;
+        runner = gameObject.AddComponent<NetworkRunner>();
+        runner.ProvideInput = true;
 
         // Create the NetworkSceneInfo from the current scene
         var scene = SceneRef.FromIndex(0);
@@ -30,7 +31,7 @@ public class NetworkManager : Singleton<NetworkManager>, INetworkRunnerCallbacks
         }
 
         // Start or join (depends on gamemode) a session with a specific name
-        result = await _runner.StartGame(new StartGameArgs()
+        result = await runner.StartGame(new StartGameArgs()
         {
             GameMode = mode,
             SessionName = "TestRoom",
@@ -52,26 +53,25 @@ public class NetworkManager : Singleton<NetworkManager>, INetworkRunnerCallbacks
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
-        NetworkObject networkPlayerObject;
+        NetworkObject networkPlayerObject = new NetworkObject();
         if (runner.IsServer)
         {
-            Debug.Log(player.PlayerId);
             // Create a unique position for the player
             Vector3 spawnPosition = 
                 new Vector3(((player.RawEncoded % runner.Config.Simulation.PlayerCount) * 2) - 5, 0, 0);
             // Vector3 spawnPosition = Vector3.zero;
             networkPlayerObject = runner.Spawn(_playerPrefab, spawnPosition, Quaternion.identity, player);
             // Keep track of the player avatars for easy access
-            _spawnedCharacters.Add(player, networkPlayerObject);
+            spawnedCharacters.Add(player, networkPlayerObject);
         }
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
-        if (_spawnedCharacters.TryGetValue(player, out NetworkObject networkObject))
+        if (spawnedCharacters.TryGetValue(player, out NetworkObject networkObject))
         {
             runner.Despawn(networkObject);
-            _spawnedCharacters.Remove(player);
+            spawnedCharacters.Remove(player);
         }
     }
 
@@ -81,11 +81,11 @@ public class NetworkManager : Singleton<NetworkManager>, INetworkRunnerCallbacks
         Vector2 up = Vector2.up;
         Vector2 dir = right * InputManager.GetHorInput() + up * InputManager.GetVerInput();
 
-        Vector2 dif = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        // Vector2 dif = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         NetworkInputData data = new NetworkInputData();
         data.direction += dir;
-        data.mousePos = dif;
+        // data.mousePos = dif;
 
         input.Set(data);
     }

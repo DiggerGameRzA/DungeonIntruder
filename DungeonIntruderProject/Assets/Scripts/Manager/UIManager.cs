@@ -1,19 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
 {
+    [Header("Player")]
     public Text ammoText;
     public Text gunText;
     public Text slotIndex;
     public Text hpText;
     public Text manaText;
     Player player;
+    [SerializeField] private GameObject groupReady;
+    [SerializeField] private TextMeshProUGUI textReady;
 
+    [Header("Spell")]
     [SerializeField] public SpellUICtrl spellUICtrl;
     
+    [Header("Reward")]
     [SerializeField] private GameObject groupReward;
     [SerializeField] private Transform contentReward;
     [SerializeField] private AugmentTab prefabAugTab;
@@ -89,6 +95,21 @@ public class UIManager : Singleton<UIManager>
     {
         if (manaText != null)
             manaText.text = $"Mana: {player.GetStats().currentMana}/{player.GetTrueMaxMana()}";
+    }
+
+    public void UpdateReady(int ready, int players)
+    {
+        if (ready == 0)
+        {
+            if (groupReady != null)
+                groupReady.SetActive(false);
+            return;
+        }
+
+        if (groupReady != null)
+            groupReady.SetActive(true);
+        if (textReady != null)
+            textReady.text = $"Ready ({ready}/{players})";
     }
 
     private GunStats replaceGun = null;

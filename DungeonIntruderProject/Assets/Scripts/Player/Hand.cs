@@ -10,12 +10,12 @@ public class Hand : MonoBehaviour
     private void Start()
     {
         inputManager = InputManager.Instance;
-        player = FindObjectOfType<Player>();
+        player = GetComponentInParent<Player>();
     }
     void Update()
     {
         if (player == null)
-            player = FindObjectOfType<Player>();
+            player = GetComponentInParent<Player>();
         
         // mouseRotZ = inputManager.GetMousePosition(transform);
         if (player.State == PlayerState.Combat || player.State == PlayerState.Casting)

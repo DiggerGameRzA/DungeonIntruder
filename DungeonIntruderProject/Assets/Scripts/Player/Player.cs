@@ -20,6 +20,8 @@ public class Player : NetworkBehaviour
 
     public ParticleSystem healParticle;
 
+    public NetworkObject networkObject;
+
     private RewardObject rewardObj = null;
     private PortalObject portalObj = null;
 
@@ -30,12 +32,17 @@ public class Player : NetworkBehaviour
         rb = GetComponent<Rigidbody2D>();
         stats = GetComponent<Stats>();
         State = PlayerState.Combat;
+        networkObject = GetComponent<NetworkObject>();
 
-        CinemachineTargetGroup[] targetGroups = FindObjectsOfType<CinemachineTargetGroup>();
-        foreach (var target in targetGroups)
+        if (networkObject.HasInputAuthority)
         {
-            if (target.name == "Target Group")
-                target.AddMember(transform, 1f, 0f);
+            NetworkManager.Instance.localPlayer = this;
+            CinemachineTargetGroup[] targetGroups = FindObjectsOfType<CinemachineTargetGroup>();
+            foreach (var target in targetGroups)
+            {
+                if (target.name == "Target Group")
+                    target.AddMember(transform, 1f, 0f);
+            }
         }
 
         StartCoroutine(WaitForGameStart());
@@ -48,7 +55,8 @@ public class Player : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-        GetInput(out NetworkInputData data);
+        if (!GetInput(out NetworkInputData data))
+            return;
         if (InputManager.Instance.canMove)
         {
             if (movement == null)
@@ -62,7 +70,8 @@ public class Player : NetworkBehaviour
                 rb.velocity = data.direction.normalized * GetTrueMoveSpeed();
         }
 
-        hand.mouseRotZ = InputManager.Instance.GetMousePosition(transform, data.mousePos);
+        // if (isLoaded)
+        //     hand.mouseRotZ = InputManager.Instance.GetMousePosition(transform, data.mousePos);
     }
 
     IEnumerator WaitForGameStart()
@@ -70,9 +79,28 @@ public class Player : NetworkBehaviour
         yield return new WaitUntil(() => NetworkManager.Instance.result != null);
         isLoaded = true;
     }
+    
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_SendPosition(Vector2 pos, RpcInfo info = default)
+    {
+        if (!info.IsInvokeLocal)
+        {
+            rb.position = pos;
+        }
+    }
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_SendMouseRot(Vector2 mousePos, RpcInfo info = default)
+    {
+        hand.mouseRotZ = InputManager.Instance.GetMousePosition(transform, mousePos);
+    }
 
     private void Update()
     {
+        if (networkObject.HasInputAuthority)
+        {
+            RPC_SendPosition(transform.position);
+        }
+        
         switch (State)
         {
             case PlayerState.Combat:
