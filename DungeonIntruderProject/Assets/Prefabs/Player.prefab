@@ -91,6 +91,7 @@ MonoBehaviour:
   gunPos: {fileID: 7801184068546824013}
   bulletPos: {fileID: 7801184068263394649}
   healParticle: {fileID: 7801184067926411005}
+  networkObject: {fileID: 0}
 --- !u!70 &7801184067329840834
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

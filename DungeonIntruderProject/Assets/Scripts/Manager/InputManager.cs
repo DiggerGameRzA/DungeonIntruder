@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class InputManager : Singleton<InputManager>
 {
-    Player player;
+    [SerializeField] Player player;
 
     [SerializeField] public bool canEvade { get; private set; }
     [SerializeField] public bool canMove { get; private set; }

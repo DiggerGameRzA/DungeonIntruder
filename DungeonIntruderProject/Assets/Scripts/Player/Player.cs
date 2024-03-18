@@ -57,6 +57,10 @@ public class Player : NetworkBehaviour
     {
         if (!GetInput(out NetworkInputData data))
             return;
+        
+        if (!isLoaded)
+            return;
+        
         if (InputManager.Instance.canMove)
         {
             if (movement == null)
@@ -66,8 +70,7 @@ public class Player : NetworkBehaviour
             }
 
             data.direction.Normalize();
-            if (isLoaded)
-                rb.velocity = data.direction.normalized * GetTrueMoveSpeed();
+            rb.velocity = data.direction.normalized * GetTrueMoveSpeed();
         }
 
         // if (isLoaded)

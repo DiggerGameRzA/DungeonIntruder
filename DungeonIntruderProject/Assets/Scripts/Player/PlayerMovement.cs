@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    Player player;
-    Stats stats;
+    [SerializeField] Player player;
+    [SerializeField] Stats stats;
     // CharacterController controller;
-    Rigidbody2D rb;
-    Transform transform;
+    [SerializeField] Rigidbody2D rb;
+    [SerializeField] Transform transform;
     public PlayerMovement(Player player)
     {
         this.player = player;
