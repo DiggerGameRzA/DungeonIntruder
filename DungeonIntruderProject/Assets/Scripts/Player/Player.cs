@@ -2,11 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
-using Fusion;
 using UnityEngine;
 
 [RequireComponent(typeof(Stats))]
-public class Player : NetworkBehaviour
+public class Player : MonoBehaviour
 {
     // CharacterController controller;
     private Rigidbody2D rb;
@@ -20,7 +19,7 @@ public class Player : NetworkBehaviour
 
     public ParticleSystem healParticle;
 
-    public NetworkObject networkObject;
+    // public NetworkObject networkObject;
 
     private RewardObject rewardObj = null;
     private PortalObject portalObj = null;
@@ -32,9 +31,9 @@ public class Player : NetworkBehaviour
         rb = GetComponent<Rigidbody2D>();
         stats = GetComponent<Stats>();
         State = PlayerState.Combat;
-        networkObject = GetComponent<NetworkObject>();
+        // networkObject = GetComponent<NetworkObject>();
 
-        if (networkObject.HasInputAuthority)
+        // if (networkObject.HasInputAuthority)
         {
             NetworkManager.Instance.localPlayer = this;
             CinemachineTargetGroup[] targetGroups = FindObjectsOfType<CinemachineTargetGroup>();
@@ -45,7 +44,7 @@ public class Player : NetworkBehaviour
             }
         }
 
-        StartCoroutine(WaitForGameStart());
+        // StartCoroutine(WaitForGameStart());
     }
 
     private void FixedUpdate()
@@ -53,56 +52,56 @@ public class Player : NetworkBehaviour
         
     }
 
-    public override void FixedUpdateNetwork()
-    {
-        if (!GetInput(out NetworkInputData data))
-            return;
+    // public override void FixedUpdateNetwork()
+    // {
+    //     if (!GetInput(out NetworkInputData data))
+    //         return;
         
-        if (!isLoaded)
-            return;
+    //     if (!isLoaded)
+    //         return;
         
-        if (InputManager.Instance.canMove)
-        {
-            if (movement == null)
-            {
-                movement = gameObject.AddComponent<PlayerMovement>();
-                movement.SetInfos(this);
-            }
+    //     if (InputManager.Instance.canMove)
+    //     {
+    //         if (movement == null)
+    //         {
+    //             movement = gameObject.AddComponent<PlayerMovement>();
+    //             movement.SetInfos(this);
+    //         }
 
-            data.direction.Normalize();
-            rb.velocity = data.direction.normalized * GetTrueMoveSpeed();
-        }
+    //         data.direction.Normalize();
+    //         rb.velocity = data.direction.normalized * GetTrueMoveSpeed();
+    //     }
 
-        // if (isLoaded)
-        //     hand.mouseRotZ = InputManager.Instance.GetMousePosition(transform, data.mousePos);
-    }
+    //     // if (isLoaded)
+    //     //     hand.mouseRotZ = InputManager.Instance.GetMousePosition(transform, data.mousePos);
+    // }
 
-    IEnumerator WaitForGameStart()
-    {
-        yield return new WaitUntil(() => NetworkManager.Instance.result != null);
-        isLoaded = true;
-    }
+    // IEnumerator WaitForGameStart()
+    // {
+    //     yield return new WaitUntil(() => NetworkManager.Instance.result != null);
+    //     isLoaded = true;
+    // }
     
-    [Rpc(RpcSources.All, RpcTargets.All)]
-    public void RPC_SendPosition(Vector2 pos, RpcInfo info = default)
-    {
-        if (!info.IsInvokeLocal)
-        {
-            rb.position = pos;
-        }
-    }
-    [Rpc(RpcSources.All, RpcTargets.All)]
-    public void RPC_SendMouseRot(Vector2 mousePos, RpcInfo info = default)
-    {
-        hand.mouseRotZ = InputManager.Instance.GetMousePosition(transform, mousePos);
-    }
+    // [Rpc(RpcSources.All, RpcTargets.All)]
+    // public void RPC_SendPosition(Vector2 pos, RpcInfo info = default)
+    // {
+    //     if (!info.IsInvokeLocal)
+    //     {
+    //         rb.position = pos;
+    //     }
+    // }
+    // [Rpc(RpcSources.All, RpcTargets.All)]
+    // public void RPC_SendMouseRot(Vector2 mousePos, RpcInfo info = default)
+    // {
+    //     hand.mouseRotZ = InputManager.Instance.GetMousePosition(transform, mousePos);
+    // }
 
     private void Update()
     {
-        if (networkObject.HasInputAuthority)
-        {
-            RPC_SendPosition(transform.position);
-        }
+        // if (networkObject.HasInputAuthority)
+        // {
+        //     RPC_SendPosition(transform.position);
+        // }
         
         switch (State)
         {

@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Fusion;
 using UnityEngine;
 
 public class InputManager : Singleton<InputManager>
@@ -30,7 +29,7 @@ public class InputManager : Singleton<InputManager>
             else
                 return;
         }
-        player.RPC_SendMouseRot(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        // player.RPC_SendMouseRot(Camera.main.ScreenToWorldPoint(Input.mousePosition));
 
         if (tempEvadeTime > 0)
             tempEvadeTime -= Time.deltaTime;

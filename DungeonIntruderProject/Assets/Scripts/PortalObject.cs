@@ -35,14 +35,14 @@ public class PortalObject : MonoBehaviour
         // SceneManager.LoadScene(scene);
 
         ready++;
-        UIManager.Instance.UpdateReady(ready, NetworkManager.Instance.runner.ActivePlayers.Count());
-        StartCoroutine(OnWaitForReady());
+        // UIManager.Instance.UpdateReady(ready, NetworkManager.Instance.runner.ActivePlayers.Count());
+        // StartCoroutine(OnWaitForReady());
         GetComponent<Collider2D>().enabled = false;
     }
 
-    private IEnumerator OnWaitForReady()
-    {
-        yield return new WaitUntil(() => ready >= NetworkManager.Instance.runner.ActivePlayers.Count());
-        Debug.Log("Yee");
-    }
+    // private IEnumerator OnWaitForReady()
+    // {
+    //     yield return new WaitUntil(() => ready >= NetworkManager.Instance.runner.ActivePlayers.Count());
+    //     Debug.Log("Yee");
+    // }
 }
