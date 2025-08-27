@@ -36,8 +36,9 @@ public class InputManager : Singleton<InputManager>
         if (tempFireTime > 0)
             tempFireTime -= Time.deltaTime;
 
-        
-        
+//asd
+
+
         if (player.State == PlayerState.Combat)
         {
             if (tempEvadeTime <= 0)
@@ -50,7 +51,7 @@ public class InputManager : Singleton<InputManager>
             {
                 canEvade = false;
             }
-            
+
             if (Input.GetButton("Fire"))
             {
                 SwitchGun(0);
@@ -63,7 +64,7 @@ public class InputManager : Singleton<InputManager>
                 if (GunInventory.Instance.gSlots[1] == null)
                     return;
             }
-            
+
             if (WeaponManager.Instance.currentGun != null)
             {
                 GunStats gun = WeaponManager.Instance.currentGun;
@@ -116,7 +117,7 @@ public class InputManager : Singleton<InputManager>
                     }
                 }
             }
-            
+
             if (Input.GetButtonDown("Cast Spell"))
             {
                 SpellManager.Instance.ClearInputList();
@@ -128,7 +129,7 @@ public class InputManager : Singleton<InputManager>
             if (Input.GetButtonDown("Evade"))
             {
                 player.SwitchState(PlayerState.Combat);
-                
+
                 SpellManager.Instance.ConfirmCastSpell();
             }
 
