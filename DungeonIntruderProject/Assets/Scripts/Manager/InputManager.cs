@@ -16,18 +16,19 @@ public class InputManager : Singleton<InputManager>
     {
         canMove = true;
         canEvade = true;
-        if (NetworkManager.Instance.localPlayer != null)
-            player = NetworkManager.Instance.localPlayer;
+        // if (NetworkManager.Instance.localPlayer != null)
+        //     player = NetworkManager.Instance.localPlayer;
     }
 
     void Update()
     {
         if (player == null)
         {
-            if (NetworkManager.Instance.localPlayer != null)
-                player = NetworkManager.Instance.localPlayer;
-            else
-                return;
+            return;
+            // if (NetworkManager.Instance.localPlayer != null)
+            //     player = NetworkManager.Instance.localPlayer;
+            // else
+            //     return;
         }
         // player.RPC_SendMouseRot(Camera.main.ScreenToWorldPoint(Input.mousePosition));
 
@@ -35,9 +36,6 @@ public class InputManager : Singleton<InputManager>
             tempEvadeTime -= Time.deltaTime;
         if (tempFireTime > 0)
             tempFireTime -= Time.deltaTime;
-
-//asd
-
 
         if (player.State == PlayerState.Combat)
         {
