@@ -22,11 +22,11 @@ public class WeaponManager : Singleton<WeaponManager>
     }
     public void Fire()
     {
-        if (NetworkManager.Instance.localPlayer == null)
+        // if (NetworkManager.Instance.localPlayer == null)
             return;
-        bulletSpawn = NetworkManager.Instance.localPlayer.bulletPos;
-        Bullet go = Instantiate(currentGun.Bullet, bulletSpawn.position, bulletSpawn.rotation);
-        go.GetComponent<Rigidbody2D>().velocity = bulletSpawn.right * currentGun.Velocity;
+        // bulletSpawn = NetworkManager.Instance.localPlayer.bulletPos;
+        // Bullet go = Instantiate(currentGun.Bullet, bulletSpawn.position, bulletSpawn.rotation);
+        // go.GetComponent<Rigidbody2D>().velocity = bulletSpawn.right * currentGun.Velocity;
     }
     public void FireBurst()
     {
@@ -36,10 +36,10 @@ public class WeaponManager : Singleton<WeaponManager>
     {
         if (beam != null)
             return;
-        if (NetworkManager.Instance.localPlayer == null)
-            return;
+        // if (NetworkManager.Instance.localPlayer == null)
+            // return;
         
-        bulletSpawn = NetworkManager.Instance.localPlayer.bulletPos;
+        // bulletSpawn = NetworkManager.Instance.localPlayer.bulletPos;
         beam = Instantiate(currentGun.Bullet, bulletSpawn);
         beam.transform.SetParent(bulletSpawn);
         // beam.GetComponent<Rigidbody2D>().velocity = bulletSpawn.right * currentGun.Velocity;
@@ -55,9 +55,9 @@ public class WeaponManager : Singleton<WeaponManager>
 
     private IEnumerator OnFireBurst()
     {
-        if (NetworkManager.Instance.localPlayer == null)
-            yield break;
-        bulletSpawn = NetworkManager.Instance.localPlayer.bulletPos;
+        // if (NetworkManager.Instance.localPlayer == null)
+            // yield break;
+        // bulletSpawn = NetworkManager.Instance.localPlayer.bulletPos;
         
         float _angle;
         if (bulletSpawn.right.x < 0)

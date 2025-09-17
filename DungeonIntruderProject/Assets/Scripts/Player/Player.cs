@@ -35,7 +35,7 @@ public class Player : MonoBehaviour
 
         // if (networkObject.HasInputAuthority)
         {
-            NetworkManager.Instance.localPlayer = this;
+            // NetworkManager.Instance.localPlayer = this;
             CinemachineTargetGroup[] targetGroups = FindObjectsOfType<CinemachineTargetGroup>();
             foreach (var target in targetGroups)
             {

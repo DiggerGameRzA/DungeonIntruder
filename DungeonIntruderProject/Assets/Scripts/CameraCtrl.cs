@@ -12,11 +12,11 @@ public class CameraCtrl : MonoBehaviour
     {
         if (FindObjectOfType<Player>())
         {
-            mainCM.SetActive(true);
+            // mainCM.SetActive(true);
         }
         else
         {
-            mainCM.SetActive(false);
+            // mainCM.SetActive(false);
         }
     }
 }

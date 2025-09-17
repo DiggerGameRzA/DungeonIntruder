@@ -1003,6 +1003,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 685364018}
+  - component: {fileID: 685364019}
   m_Layer: 5
   m_Name: script - lobbyCtrl
   m_TagString: Untagged
@@ -1029,6 +1030,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &685364019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 685364017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26ca0f7f387d5514b98bdd7105e3c28c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groupLobby: {fileID: 239528440}
 --- !u!1 &697297137
 GameObject:
   m_ObjectHideFlags: 0
@@ -1449,7 +1463,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 775089532}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 685364019}
+        m_TargetAssemblyTypeName: LobbyCtrl, Assembly-CSharp
+        m_MethodName: OnClickedHost
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &775089532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2237,7 +2263,6 @@ GameObject:
   - component: {fileID: 1207949257}
   - component: {fileID: 1207949258}
   - component: {fileID: 1207949259}
-  - component: {fileID: 1207949260}
   m_Layer: 0
   m_Name: (singleton) NetworkManager
   m_TagString: Untagged
@@ -2280,7 +2305,7 @@ MonoBehaviour:
   offlineScene: Assets/Scenes/0_Lobby.unity
   onlineScene: Assets/Scenes/0_Lobby.unity
   offlineSceneLoadDelay: 0
-  transport: {fileID: 1207949260}
+  transport: {fileID: 0}
   networkAddress: localhost
   maxConnections: 100
   disconnectInactiveConnections: 0
@@ -2313,23 +2338,9 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1207949256}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6442dc8070ceb41f094e44de0bf87274, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  offsetX: 0
-  offsetY: 0
---- !u!114 &1207949260
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1207949256}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b0fecffa3f624585964b0d0eb21b18e, type: 3}
+  m_Script: {fileID: 11500000, guid: c2d1e0e17f753449798fa27474d6b86b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   port: 7777
@@ -2344,11 +2355,17 @@ MonoBehaviour:
   SendWindowSize: 4096
   MaxRetransmit: 40
   MaximizeSocketBuffers: 1
-  ReliableMaxMessageSize: 297433
-  UnreliableMaxMessageSize: 1194
+  ReliableMaxMessageSize: 294131
+  UnreliableMaxMessageSize: 1181
   debugLog: 0
   statisticsGUI: 0
   statisticsLog: 0
+  relayAddress: 127.0.0.1
+  relayGameServerPort: 8888
+  relayGameClientPort: 9999
+  relayGUI: 1
+  userId: 11111111
+  sessionId: 22222222
 --- !u!1 &1261709957
 GameObject:
   m_ObjectHideFlags: 0
