@@ -10,4 +10,8 @@ public class LobbyCtrl : MonoBehaviour
         Mirror.NetworkManager.singleton.StartHost();
         groupLobby.SetActive(false);
     }
+    public void OnClickedJoin()
+    {
+        Mirror.NetworkManager.singleton.StartClient();
+    }
 }

@@ -883,9 +883,9 @@ RectTransform:
   - {fileID: 391430847}
   m_Father: {fileID: 1963898669}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 974.8846, y: -737.5143}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 226.0187, y: 82.6667}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &644350373
@@ -1415,9 +1415,9 @@ RectTransform:
   - {fileID: 2120190799}
   m_Father: {fileID: 1963898669}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 974.8846, y: -359.23087}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 226.0187, y: 82.6667}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &775089531
@@ -1839,9 +1839,9 @@ RectTransform:
   - {fileID: 2078967102}
   m_Father: {fileID: 2139825749}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 974.8846, y: -614.631}
   m_SizeDelta: {x: 226.0187, y: 82.6667}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1116403230
@@ -2262,7 +2262,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1207949257}
   - component: {fileID: 1207949258}
-  - component: {fileID: 1207949259}
+  - component: {fileID: 1207949260}
   m_Layer: 0
   m_Name: (singleton) NetworkManager
   m_TagString: Untagged
@@ -2306,7 +2306,7 @@ MonoBehaviour:
   onlineScene: Assets/Scenes/0_Lobby.unity
   offlineSceneLoadDelay: 0
   transport: {fileID: 0}
-  networkAddress: localhost
+  networkAddress: c2f6e422fbcc.pr.edgegap.net
   maxConnections: 100
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
@@ -2331,7 +2331,7 @@ MonoBehaviour:
   evaluationMethod: 0
   evaluationInterval: 3
   timeInterpolationGui: 0
---- !u!114 &1207949259
+--- !u!114 &1207949260
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2340,32 +2340,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1207949256}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2d1e0e17f753449798fa27474d6b86b, type: 3}
+  m_Script: {fileID: 11500000, guid: 6442dc8070ceb41f094e44de0bf87274, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  port: 7777
-  DualMode: 1
-  NoDelay: 1
-  Interval: 10
-  Timeout: 10000
-  RecvBufferSize: 7361536
-  SendBufferSize: 7361536
-  FastResend: 2
-  ReceiveWindowSize: 4096
-  SendWindowSize: 4096
-  MaxRetransmit: 40
-  MaximizeSocketBuffers: 1
-  ReliableMaxMessageSize: 294131
-  UnreliableMaxMessageSize: 1181
-  debugLog: 0
-  statisticsGUI: 0
-  statisticsLog: 0
-  relayAddress: 127.0.0.1
-  relayGameServerPort: 8888
-  relayGameClientPort: 9999
-  relayGUI: 1
-  userId: 11111111
-  sessionId: 22222222
+  offsetX: 0
+  offsetY: 0
 --- !u!1 &1261709957
 GameObject:
   m_ObjectHideFlags: 0
@@ -2588,9 +2567,9 @@ RectTransform:
   - {fileID: 1119723191}
   m_Father: {fileID: 2139825749}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 974.8846, y: -482.11423}
   m_SizeDelta: {x: 226.0187, y: 82.6667}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1348960778
@@ -3173,9 +3152,9 @@ RectTransform:
   - {fileID: 1289941180}
   m_Father: {fileID: 1963898669}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 974.8846, y: -482.11423}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 719.76, y: 63.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1409020556
@@ -3579,9 +3558,9 @@ RectTransform:
   - {fileID: 1923171573}
   m_Father: {fileID: 1963898669}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 974.8846, y: -604.99756}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 226.0187, y: 82.6667}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1676643618
@@ -3627,7 +3606,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1676643619}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 685364019}
+        m_TargetAssemblyTypeName: LobbyCtrl, Assembly-CSharp
+        m_MethodName: OnClickedJoin
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1676643619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3818,7 +3809,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1789134256
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4451,7 +4442,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2037212326
 RectTransform:
   m_ObjectHideFlags: 0
