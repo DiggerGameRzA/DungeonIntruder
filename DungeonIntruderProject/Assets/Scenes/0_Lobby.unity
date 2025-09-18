@@ -2262,7 +2262,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1207949257}
   - component: {fileID: 1207949258}
-  - component: {fileID: 1207949260}
+  - component: {fileID: 1207949259}
   m_Layer: 0
   m_Name: (singleton) NetworkManager
   m_TagString: Untagged
@@ -2305,8 +2305,8 @@ MonoBehaviour:
   offlineScene: Assets/Scenes/0_Lobby.unity
   onlineScene: Assets/Scenes/0_Lobby.unity
   offlineSceneLoadDelay: 0
-  transport: {fileID: 0}
-  networkAddress: c2f6e422fbcc.pr.edgegap.net
+  transport: {fileID: 1207949259}
+  networkAddress: localhost
   maxConnections: 100
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
@@ -2331,7 +2331,7 @@ MonoBehaviour:
   evaluationMethod: 0
   evaluationInterval: 3
   timeInterpolationGui: 0
---- !u!114 &1207949260
+--- !u!114 &1207949259
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2340,11 +2340,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1207949256}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6442dc8070ceb41f094e44de0bf87274, type: 3}
+  m_Script: {fileID: 11500000, guid: 6d4f9593ba7f845458730213887b5758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offsetX: 0
-  offsetY: 0
+  Port: 7777
+  LoggerLevel: 3
+  TimeoutMS: 1000
+  useRelay: 0
 --- !u!1 &1261709957
 GameObject:
   m_ObjectHideFlags: 0
