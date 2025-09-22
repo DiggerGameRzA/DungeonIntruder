@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Player;
 using UnityEngine;
 
 public class AugmentInventory : Singleton<AugmentInventory>
@@ -11,7 +12,7 @@ public class AugmentInventory : Singleton<AugmentInventory>
     public void AddAugment(RewardInfo augmentInfo)
     {
         listOfAugments.Add(augmentInfo);
-        Player player = FindObjectOfType<Player>();
+        PlayerObject player = FindObjectOfType<PlayerObject>();
         
         switch (augmentInfo.AugmentType)
         {

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Player;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,7 +13,7 @@ public class UIManager : Singleton<UIManager>
     public Text slotIndex;
     public Text hpText;
     public Text manaText;
-    Player player;
+    PlayerObject player;
     [SerializeField] private GameObject groupReady;
     [SerializeField] private TextMeshProUGUI textReady;
 
@@ -36,7 +37,7 @@ public class UIManager : Singleton<UIManager>
 
     void Start()
     {
-        player = FindObjectOfType<Player>();
+        player = FindObjectOfType<PlayerObject>();
         Invoke(nameof(UpdateAll), 0.2f);
         // ammoText.text = FindObjectOfType<Player>().GetComponent<Stats>().currentAmmo.ToString();
     }

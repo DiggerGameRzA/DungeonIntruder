@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Player;
 using UnityEngine;
 
 public class WeaponManager : Singleton<WeaponManager>
@@ -88,7 +89,7 @@ public class WeaponManager : Singleton<WeaponManager>
     
     public void ShowGun(GunStats gun)
     {
-        Player player = FindObjectOfType<Player>();
+        PlayerObject player = FindObjectOfType<PlayerObject>();
         if (player == null)
             return;
         

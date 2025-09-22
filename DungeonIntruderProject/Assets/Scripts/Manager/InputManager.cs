@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Player;
 using UnityEngine;
 
 public class InputManager : Singleton<InputManager>
 {
-    [SerializeField] Player player;
+    [SerializeField] PlayerObject player;
 
     [SerializeField] public bool canEvade { get; private set; }
     [SerializeField] public bool canMove { get; private set; }

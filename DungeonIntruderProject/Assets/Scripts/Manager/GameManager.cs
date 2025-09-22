@@ -1,17 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using com.cyborgAssets.inspectorButtonPro;
+using Mirror;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : Singleton<GameManager>
+public class GameManager : NetworkBehaviour
 {
-    [ProButton] public void HostGame()
+    private static GameManager instance = null;
+
+    public static GameManager Instance
     {
-        // NetworkManager.Instance.StartGame(GameMode.Host);
+        get
+        {
+            if (instance == null)
+            {
+                instance = new GameManager();
+            }
+            return instance;
+        }
     }
-    [ProButton] public void JoinGame()
+
+    [Command(requiresAuthority = false)]
+    public void CmdSetSpawnPos(NetworkConnectionToClient sender = null)
     {
-        // NetworkManager.Instance.StartGame(GameMode.Client);
+        sender.identity.gameObject.transform.position = new Vector3(-4 + sender.identity.netId, 1, 0);
     }
 }

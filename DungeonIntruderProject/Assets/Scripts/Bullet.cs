@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using Player;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -49,7 +50,7 @@ public class Bullet : MonoBehaviour
                 dmgI.transform.DOLocalMoveY(dmgPos + 1f, 1f).SetEase(Ease.OutCubic);
 
                 Destroy(dmgI, 1f);
-                col.GetComponent<Player>().TakeDamage(damage);
+                col.GetComponent<PlayerObject>().TakeDamage(damage);
                 Destroy(gameObject);
             }
         }

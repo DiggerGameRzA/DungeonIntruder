@@ -118,6 +118,8 @@ GameObject:
   - component: {fileID: 1603852963970230948}
   - component: {fileID: 2652974244268018641}
   - component: {fileID: 2456584501100929310}
+  - component: {fileID: 2555204225009911895}
+  - component: {fileID: 7994824654337615148}
   m_Layer: 0
   m_Name: prefab - Player
   m_TagString: Untagged
@@ -192,3 +194,54 @@ MonoBehaviour:
   rotationSensitivity: 0.01
   positionPrecision: 0.01
   scalePrecision: 0.01
+--- !u!114 &2555204225009911895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6048565477395736088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aad5438dd720fe4e96413b26b460050, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 100
+  currentHP: 100
+  maxMana: 50
+  currentMana: 50
+  shield: 0
+  healingPercentage: 0
+  collectRange: 50
+  movementSpeed: 50
+  evadeDistance: 0
+  evadeSpeed: 15
+  evadeWindow: 0
+  evadeCooldown: 1
+  dodgeChance: 0
+  gunDamagePercentage: 0
+  pistolDamagePercentage: 0
+  shotgunDamagePercentage: 0
+  beamDamagePercentage: 0
+  fireRatePercentage: 0
+  spellDamagePercentage: 0
+  spellCooldownReductionPercentage: 0
+  spellShieldPercentage: 0
+--- !u!114 &7994824654337615148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6048565477395736088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b25b92bcaafbe7749836bd5629396810, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collider: {fileID: 0}
+  State: 0
+  hand: {fileID: 0}
+  gunPos: {fileID: 0}
+  bulletPos: {fileID: 0}
+  healParticle: {fileID: 0}

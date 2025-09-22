@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Player;
 using UnityEngine;
 
 public class CameraCtrl : MonoBehaviour
@@ -10,7 +11,7 @@ public class CameraCtrl : MonoBehaviour
 
     private void Update()
     {
-        if (FindObjectOfType<Player>())
+        if (FindObjectOfType<PlayerObject>())
         {
             // mainCM.SetActive(true);
         }

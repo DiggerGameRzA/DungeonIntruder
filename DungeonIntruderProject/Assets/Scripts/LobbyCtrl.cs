@@ -18,19 +18,30 @@ public class LobbyCtrl : MonoBehaviour
     }
     public void OnClickedHost()
     {
-        // RelayManager.Instance.CreateRelay();
-        relayNetworkManager.StartRelayHost(4);
-        groupLobby.SetActive(false);
+        relayNetworkManager.StartRelayHost(4, callback:
+        () =>
+        {
+            groupLobby.SetActive(false);
+
+            // NetworkIdentity host = relayNetworkManager.GetNetworkIdentityById(1);
+            // Debug.Log(host.connectionToClient);
+            // GameManager.Instance.CmdSetSpawnPos();
+        });
+        
     }
     public void OnClickedJoin()
     {
-        // RelayManager.Instance.JoinRelay(inputCode.text);
-        relayNetworkManager.relayJoinCode = inputCode.text;
-        relayNetworkManager.JoinRelayServer();
+        relayNetworkManager.JoinRelayServer(inputCode.text, 
+        () =>
+        {
+            groupLobby.SetActive(false);
+
+            // NetworkIdentity joinPlayer = relayNetworkManager.GetLatestId();
+            // GameManager.Instance.CmdSetSpawnPos();
+        });
     }
     public void OnClickedGetCode()
     {
-        // textHostCode.text = $"Code = {RelayManager.Instance.joinCode}";
         textHostCode.text = $"Code = {relayNetworkManager.relayJoinCode}";
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Player;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Spell1", menuName = "ScriptableObjects/Spells", order = 1)]
@@ -13,7 +14,7 @@ public class SpellInfo : ScriptableObject
     public float actionValue = 10f;
     public float actionDistance = 5f;
 
-    public void CastSpell(Player player)
+    public void CastSpell(PlayerObject player)
     {
         if (player.GetStats().currentMana - actionCost < 0)
             return;

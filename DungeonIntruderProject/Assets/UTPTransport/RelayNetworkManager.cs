@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-
 using Mirror;
-
 using UnityEngine;
 using Unity.Services.Relay.Models;
 
@@ -10,6 +8,7 @@ namespace Utp
 {
 	public class RelayNetworkManager : NetworkManager
 	{
+		[SerializeField] public List<NetworkIdentity> listOfNetworkIden = new List<NetworkIdentity>();
 		private UtpTransport utpTransport;
 
 		/// <summary>
@@ -45,6 +44,7 @@ namespace Utp
 			}
 		}
 
+		#region StartServer
 		/// <summary>
 		/// Get the port the server is listening on.
 		/// </summary>
@@ -93,7 +93,7 @@ namespace Utp
 		/// <summary>
 		/// Ensures Relay is enabled. Starts a network "host" - a server and client in the same application
 		/// </summary>
-		public void StartRelayHost(int maxPlayers, string regionId = null)
+		public void StartRelayHost(int maxPlayers, string regionId = null, Action callback = null)
 		{
 			utpTransport.useRelay = true;
 			utpTransport.AllocateRelayServer(maxPlayers, regionId,
@@ -102,6 +102,10 @@ namespace Utp
 				relayJoinCode = joinCode;
 
 				StartHost();
+
+				NetworkIdentity hostId = FindObjectOfType<NetworkIdentity>();
+				listOfNetworkIden.Add(hostId);
+				callback?.Invoke();
 			},
 			() =>
 			{
@@ -121,18 +125,35 @@ namespace Utp
 		/// <summary>
 		/// Ensures Relay is enabled. Starts the client, connects to the server with the relayJoinCode.
 		/// </summary>
-		public void JoinRelayServer()
+		public void JoinRelayServer(string _joinCode, Action callback = null)
 		{
 			utpTransport.useRelay = true;
-			utpTransport.ConfigureClientWithJoinCode(relayJoinCode,
+			utpTransport.ConfigureClientWithJoinCode(_joinCode,
 			() =>
 			{
 				StartClient();
+				callback?.Invoke();
 			},
 			() =>
 			{
 				UtpLog.Error($"Failed to join Relay server.");
 			});
 		}
+		#endregion
+
+		#region GetData
+		public NetworkIdentity[] GetNetworkIdentities()
+		{
+			return listOfNetworkIden.ToArray();
+		}
+		public NetworkIdentity GetNetworkIdentityById(int id)
+		{
+			return listOfNetworkIden.Find(x => x.netId == id);
+		}
+		public NetworkIdentity GetLatestId()
+		{
+			return listOfNetworkIden.Find(x => x.netId == listOfNetworkIden.Count);
+		}
+		#endregion
 	}
 }

@@ -1,15 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Player;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] Player player;
+    [SerializeField] PlayerObject player;
     [SerializeField] Stats stats;
     // CharacterController controller;
     [SerializeField] Rigidbody2D rb;
     [SerializeField] Transform transform;
-    public PlayerMovement(Player player)
+    public PlayerMovement(PlayerObject player)
     {
         this.player = player;
         // controller = player.GetController();
@@ -18,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
         stats = player.GetStats();
     }
 
-    public void SetInfos(Player player)
+    public void SetInfos(PlayerObject player)
     {
         this.player = player;
         rb = player.GetRigidBody();

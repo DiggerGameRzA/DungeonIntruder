@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Player;
 
 public class Enemy : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float delayFireTime;
     [SerializeField] private float tempTime;
     [SerializeField] private GameObject prefabBullet;
-    [SerializeField] private Player _player;
+    [SerializeField] private PlayerObject _player;
     [SerializeField] private NavMeshAgent agent;
 
     private void Awake()
@@ -62,7 +63,7 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            _player = FindObjectOfType<Player>();
+            _player = FindObjectOfType<PlayerObject>();
         }
     }
 

@@ -1,11 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Player;
 using UnityEngine;
 
 public class SpellManager : Singleton<SpellManager>
 {
-    private Player player;
+    private PlayerObject player;
     [SerializeField] public List<SpellInfo> listOfSpellInfos = new List<SpellInfo>();
     [SerializeField] private List<SpellInput> listOfSpellInputs = new List<SpellInput>();
     
@@ -42,9 +43,9 @@ public class SpellManager : Singleton<SpellManager>
         }
         else
         {
-            if (FindObjectOfType<Player>() == null)
+            if (FindObjectOfType<PlayerObject>() == null)
                 return;
-            player = FindObjectOfType<Player>();
+            player = FindObjectOfType<PlayerObject>();
         }
     }
 
@@ -88,7 +89,7 @@ public class SpellManager : Singleton<SpellManager>
         return null;
     }
     
-    public void InitExplosion(Player player, SpellInfo spellInfo)
+    public void InitExplosion(PlayerObject player, SpellInfo spellInfo)
     {
         GameObject go = Instantiate(prefabExplosion, player.transform.position, Quaternion.identity);
         go.GetComponent<Explosion>().damage = spellInfo.actionValue;

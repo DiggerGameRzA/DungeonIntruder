@@ -1,21 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Player;
 using UnityEngine;
 
 public class Hand : MonoBehaviour
 {
     InputManager inputManager;
-    private Player player;
+    private PlayerObject player;
     public float mouseRotZ;
     private void Start()
     {
         inputManager = InputManager.Instance;
-        player = GetComponentInParent<Player>();
+        player = GetComponentInParent<PlayerObject>();
     }
     void Update()
     {
         if (player == null)
-            player = GetComponentInParent<Player>();
+            player = GetComponentInParent<PlayerObject>();
         
         // mouseRotZ = inputManager.GetMousePosition(transform);
         if (player.State == PlayerState.Combat || player.State == PlayerState.Casting)
