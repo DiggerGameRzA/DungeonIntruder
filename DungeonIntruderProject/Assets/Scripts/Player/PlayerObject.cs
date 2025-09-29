@@ -13,7 +13,7 @@ namespace Player
         // CharacterController controller;
         [SerializeField] private NetworkIdentity networkIdentity;
         private Rigidbody2D rb;
-        [SerializeField] private Collider2D collider;
+        [SerializeField] private Collider2D col;
         public PlayerState State;
         private PlayerMovement movement;
         Stats stats;
@@ -32,9 +32,6 @@ namespace Player
 
         void Start()
         {
-            networkIdentity = GetComponent<NetworkIdentity>();
-            transform.position = new Vector3(-4 + networkIdentity.netId, 0, 0);
-
             rb = GetComponent<Rigidbody2D>();
             stats = GetComponent<Stats>();
             State = PlayerState.Combat;
@@ -52,6 +49,19 @@ namespace Player
             }
 
             // StartCoroutine(WaitForGameStart());
+        }
+
+        public override void OnStartLocalPlayer()
+        {
+            base.OnStartLocalPlayer();
+            networkIdentity = GetComponent<NetworkIdentity>();
+            transform.position = new Vector3(-4 + networkIdentity.netId, 0, 0);
+
+            CameraCtrl cameraCtrl = FindObjectOfType<CameraCtrl>();
+            if (cameraCtrl != null)
+            {
+                cameraCtrl.AddTargetPlayer(this.transform);
+            }
         }
 
         private void FixedUpdate()
@@ -209,10 +219,10 @@ namespace Player
         public IEnumerator OnIFraming(float onBegin, float onEnding)
         {
             yield return new WaitForSeconds(onBegin);
-            collider.enabled = false;
+            col.enabled = false;
 
             yield return new WaitForSeconds(onEnding);
-            collider.enabled = true;
+            col.enabled = true;
         }
 
         public float GetTrueMaxHP()

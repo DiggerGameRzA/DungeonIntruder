@@ -22,10 +22,7 @@ public class LobbyCtrl : MonoBehaviour
         () =>
         {
             groupLobby.SetActive(false);
-
-            // NetworkIdentity host = relayNetworkManager.GetNetworkIdentityById(1);
-            // Debug.Log(host.connectionToClient);
-            // GameManager.Instance.CmdSetSpawnPos();
+            ShowRoomCode();
         });
         
     }
@@ -35,12 +32,10 @@ public class LobbyCtrl : MonoBehaviour
         () =>
         {
             groupLobby.SetActive(false);
-
-            // NetworkIdentity joinPlayer = relayNetworkManager.GetLatestId();
-            // GameManager.Instance.CmdSetSpawnPos();
+            ShowRoomCode();
         });
     }
-    public void OnClickedGetCode()
+    public void ShowRoomCode()
     {
         textHostCode.text = $"Code = {relayNetworkManager.relayJoinCode}";
     }
