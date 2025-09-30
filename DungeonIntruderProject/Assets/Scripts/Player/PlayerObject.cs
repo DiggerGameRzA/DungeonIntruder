@@ -12,7 +12,7 @@ namespace Player
     {
         // CharacterController controller;
         [SerializeField] private NetworkIdentity networkIdentity;
-        private Rigidbody2D rb;
+        private Rigidbody rb;
         [SerializeField] private Collider2D col;
         public PlayerState State;
         private PlayerMovement movement;
@@ -32,28 +32,15 @@ namespace Player
 
         void Start()
         {
-            rb = GetComponent<Rigidbody2D>();
+            rb = GetComponent<Rigidbody>();
             stats = GetComponent<Stats>();
             State = PlayerState.Combat;
-            // networkObject = GetComponent<NetworkObject>();
-
-            // if (networkObject.HasInputAuthority)
-            {
-                // NetworkManager.Instance.localPlayer = this;
-                CinemachineTargetGroup[] targetGroups = FindObjectsOfType<CinemachineTargetGroup>();
-                foreach (var target in targetGroups)
-                {
-                    if (target.name == "Target Group")
-                        target.AddMember(transform, 1f, 0f);
-                }
-            }
-
-            // StartCoroutine(WaitForGameStart());
         }
 
         public override void OnStartLocalPlayer()
         {
             base.OnStartLocalPlayer();
+            Debug.Log("Start!!!");
             networkIdentity = GetComponent<NetworkIdentity>();
             transform.position = new Vector3(-4 + networkIdentity.netId, 0, 0);
 
@@ -63,35 +50,6 @@ namespace Player
                 cameraCtrl.AddTargetPlayer(this.transform);
             }
         }
-
-        private void FixedUpdate()
-        {
-
-        }
-
-        // public override void FixedUpdateNetwork()
-        // {
-        //     if (!GetInput(out NetworkInputData data))
-        //         return;
-
-        //     if (!isLoaded)
-        //         return;
-
-        //     if (InputManager.Instance.canMove)
-        //     {
-        //         if (movement == null)
-        //         {
-        //             movement = gameObject.AddComponent<PlayerMovement>();
-        //             movement.SetInfos(this);
-        //         }
-
-        //         data.direction.Normalize();
-        //         rb.velocity = data.direction.normalized * GetTrueMoveSpeed();
-        //     }
-
-        //     // if (isLoaded)
-        //     //     hand.mouseRotZ = InputManager.Instance.GetMousePosition(transform, data.mousePos);
-        // }
 
         // IEnumerator WaitForGameStart()
         // {
@@ -120,34 +78,34 @@ namespace Player
             //     RPC_SendPosition(transform.position);
             // }
 
-            switch (State)
-            {
-                case PlayerState.Combat:
-                    if (UIManager.Instance.spellUICtrl != null)
-                        UIManager.Instance.spellUICtrl.EnableUI(false);
-                    InputManager.Instance.SetCanMove(true);
-                    InputManager.Instance.SetCanEvade(true);
-                    InputManager.Instance.ObtainReward(rewardObj);
-                    InputManager.Instance.EnterPortal(portalObj);
-                    break;
-                case PlayerState.Casting:
-                    if (UIManager.Instance.spellUICtrl != null)
-                        UIManager.Instance.spellUICtrl.EnableUI(true);
-                    InputManager.Instance.SetCanMove(false);
-                    InputManager.Instance.SetCanEvade(false);
-                    movement.StopRun();
-                    break;
-                case PlayerState.StandBy:
-                    break;
-                case PlayerState.Evading:
-                    InputManager.Instance.SetCanMove(false);
-                    InputManager.Instance.SetCanEvade(false);
-                    StartCoroutine(OnIFraming(0f, 0.4f));
-                    SwitchState(PlayerState.Combat, 0.2f);
-                    break;
-                default:
-                    break;
-            }
+            // switch (State)
+            // {
+            //     case PlayerState.Combat:
+            //         if (UIManager.Instance.spellUICtrl != null)
+            //             UIManager.Instance.spellUICtrl.EnableUI(false);
+            //         InputManager.Instance.SetCanMove(true);
+            //         InputManager.Instance.SetCanEvade(true);
+            //         InputManager.Instance.ObtainReward(rewardObj);
+            //         InputManager.Instance.EnterPortal(portalObj);
+            //         break;
+            //     case PlayerState.Casting:
+            //         if (UIManager.Instance.spellUICtrl != null)
+            //             UIManager.Instance.spellUICtrl.EnableUI(true);
+            //         InputManager.Instance.SetCanMove(false);
+            //         InputManager.Instance.SetCanEvade(false);
+            //         movement.StopRun();
+            //         break;
+            //     case PlayerState.StandBy:
+            //         break;
+            //     case PlayerState.Evading:
+            //         InputManager.Instance.SetCanMove(false);
+            //         InputManager.Instance.SetCanEvade(false);
+            //         StartCoroutine(OnIFraming(0f, 0.4f));
+            //         SwitchState(PlayerState.Combat, 0.2f);
+            //         break;
+            //     default:
+            //         break;
+            // }
         }
 
         private void OnTriggerEnter2D(Collider2D col)
@@ -191,7 +149,7 @@ namespace Player
         //     return controller;
         // }
 
-        public Rigidbody2D GetRigidBody()
+        public Rigidbody GetRigidBody()
         {
             return rb;
         }

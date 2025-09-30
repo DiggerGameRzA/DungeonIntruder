@@ -1,6 +1,7 @@
 using Unity.Services.Core;
 using Unity.Services.Authentication;
 using UnityEngine;
+using System;
 
 public class RelayInitializer : MonoBehaviour
 {
@@ -10,11 +11,12 @@ public class RelayInitializer : MonoBehaviour
         {
             await UnityServices.InitializeAsync();
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
-            Debug.Log("Unity Gaming Services initialized and signed in anonymously.");
+            Debug.Log("Logged into Unity, player ID: " + AuthenticationService.Instance.PlayerId);
         }
-        catch (System.Exception e)
+        catch (Exception e)
         {
-            Debug.LogError($"Error initializing Unity Gaming Services: {e.Message}");
+            Debug.LogError(e);
         }
+
     }
 }

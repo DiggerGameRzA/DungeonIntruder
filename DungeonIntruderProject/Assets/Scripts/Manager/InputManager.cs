@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class InputManager : Singleton<InputManager>
 {
-    [SerializeField] PlayerObject player;
+    // [SerializeField] PlayerObject player;
 
     [SerializeField] public bool canEvade { get; private set; }
     [SerializeField] public bool canMove { get; private set; }
@@ -23,14 +23,14 @@ public class InputManager : Singleton<InputManager>
 
     void Update()
     {
-        if (player == null)
-        {
-            return;
+        // if (player == null)
+        // {
+            // return;
             // if (NetworkManager.Instance.localPlayer != null)
             //     player = NetworkManager.Instance.localPlayer;
             // else
             //     return;
-        }
+        // }
         // player.RPC_SendMouseRot(Camera.main.ScreenToWorldPoint(Input.mousePosition));
 
         if (tempEvadeTime > 0)
@@ -38,96 +38,96 @@ public class InputManager : Singleton<InputManager>
         if (tempFireTime > 0)
             tempFireTime -= Time.deltaTime;
 
-        if (player.State == PlayerState.Combat)
-        {
-            if (tempEvadeTime <= 0)
-            {
-                canEvade = true;
-                if (Input.GetButtonDown("Evade"))
-                    StartCoroutine(player.GetMovement().Evade());
-            }
-            else
-            {
-                canEvade = false;
-            }
+        // if (player.State == PlayerState.Combat)
+        // {
+        //     if (tempEvadeTime <= 0)
+        //     {
+        //         canEvade = true;
+        //         if (Input.GetButtonDown("Evade"))
+        //             StartCoroutine(player.GetMovement().Evade());
+        //     }
+        //     else
+        //     {
+        //         canEvade = false;
+        //     }
 
-            if (Input.GetButton("Fire"))
-            {
-                SwitchGun(0);
-                if (GunInventory.Instance.gSlots[0] == null)
-                    return;
-            }
-            if (Input.GetButton("Fire2"))
-            {
-                SwitchGun(1);
-                if (GunInventory.Instance.gSlots[1] == null)
-                    return;
-            }
+        //     if (Input.GetButton("Fire"))
+        //     {
+        //         SwitchGun(0);
+        //         if (GunInventory.Instance.gSlots[0] == null)
+        //             return;
+        //     }
+        //     if (Input.GetButton("Fire2"))
+        //     {
+        //         SwitchGun(1);
+        //         if (GunInventory.Instance.gSlots[1] == null)
+        //             return;
+        //     }
 
-            if (WeaponManager.Instance.currentGun != null)
-            {
-                GunStats gun = WeaponManager.Instance.currentGun;
-                if (gun.Pattern == GunPattern.Auto || gun.Pattern == GunPattern.Beam)
-                {
-                    if (Input.GetButton("Fire") || Input.GetButton("Fire2"))
-                    {
-                        if (tempFireTime <= 0)
-                        {
-                            if (gun.Pattern == GunPattern.Auto)
-                            {
-                                WeaponManager.Instance.Fire();
-                            }
-                            else if (gun.Pattern == GunPattern.Beam)
-                            {
-                                WeaponManager.Instance.FireBeam();
-                            }
+        //     if (WeaponManager.Instance.currentGun != null)
+        //     {
+        //         GunStats gun = WeaponManager.Instance.currentGun;
+        //         if (gun.Pattern == GunPattern.Auto || gun.Pattern == GunPattern.Beam)
+        //         {
+        //             if (Input.GetButton("Fire") || Input.GetButton("Fire2"))
+        //             {
+        //                 if (tempFireTime <= 0)
+        //                 {
+        //                     if (gun.Pattern == GunPattern.Auto)
+        //                     {
+        //                         WeaponManager.Instance.Fire();
+        //                     }
+        //                     else if (gun.Pattern == GunPattern.Beam)
+        //                     {
+        //                         WeaponManager.Instance.FireBeam();
+        //                     }
 
-                            // player.GetStats().currentAmmo -= cost;
-                            FindObjectOfType<UIManager>().UpdateAmmo();
-                            float fireRate = gun.FireRate + (gun.ModifierInfo.fireRatePercentage / 100f * gun.FireRate);
-                            tempFireTime = 1 / fireRate;
-                        }
-                    }
-                    else
-                    {
-                        WeaponManager.Instance.DestroyBeam();
-                    }
-                }
-                else if (gun.Pattern == GunPattern.Single || gun.Pattern == GunPattern.Burst)
-                {
-                    if (Input.GetButtonDown("Fire") || Input.GetButtonDown("Fire2"))
-                    {
-                        if (tempFireTime <= 0)
-                        {
-                            if (gun.Pattern == GunPattern.Single)
-                            {
-                                WeaponManager.Instance.Fire();
-                            }
-                            else if (gun.Pattern == GunPattern.Burst)
-                            {
-                                WeaponManager.Instance.FireBurst();
-                            }
+        //                     // player.GetStats().currentAmmo -= cost;
+        //                     FindObjectOfType<UIManager>().UpdateAmmo();
+        //                     float fireRate = gun.FireRate + (gun.ModifierInfo.fireRatePercentage / 100f * gun.FireRate);
+        //                     tempFireTime = 1 / fireRate;
+        //                 }
+        //             }
+        //             else
+        //             {
+        //                 WeaponManager.Instance.DestroyBeam();
+        //             }
+        //         }
+        //         else if (gun.Pattern == GunPattern.Single || gun.Pattern == GunPattern.Burst)
+        //         {
+        //             if (Input.GetButtonDown("Fire") || Input.GetButtonDown("Fire2"))
+        //             {
+        //                 if (tempFireTime <= 0)
+        //                 {
+        //                     if (gun.Pattern == GunPattern.Single)
+        //                     {
+        //                         WeaponManager.Instance.Fire();
+        //                     }
+        //                     else if (gun.Pattern == GunPattern.Burst)
+        //                     {
+        //                         WeaponManager.Instance.FireBurst();
+        //                     }
 
-                            // player.GetStats().currentAmmo -= cost;
-                            FindObjectOfType<UIManager>().UpdateAmmo();
-                            float fireRate = gun.FireRate + (gun.ModifierInfo.fireRatePercentage / 100f * gun.FireRate);
-                            tempFireTime = 1 / fireRate;
-                        }
-                    }
-                }
-            }
+        //                     // player.GetStats().currentAmmo -= cost;
+        //                     FindObjectOfType<UIManager>().UpdateAmmo();
+        //                     float fireRate = gun.FireRate + (gun.ModifierInfo.fireRatePercentage / 100f * gun.FireRate);
+        //                     tempFireTime = 1 / fireRate;
+        //                 }
+        //             }
+        //         }
+        //     }
 
-            if (Input.GetButtonDown("Cast Spell"))
-            {
-                SpellManager.Instance.ClearInputList();
-                player.SwitchState(PlayerState.Casting);
-            }
-        }
-        else if (player.State == PlayerState.Casting)
+        //     if (Input.GetButtonDown("Cast Spell"))
+        //     {
+        //         SpellManager.Instance.ClearInputList();
+        //         player.SwitchState(PlayerState.Casting);
+        //     }
+        // }
+        // else if (player.State == PlayerState.Casting)
         {
             if (Input.GetButtonDown("Evade"))
             {
-                player.SwitchState(PlayerState.Combat);
+                // player.SwitchState(PlayerState.Combat);
 
                 SpellManager.Instance.ConfirmCastSpell();
             }
@@ -135,7 +135,7 @@ public class InputManager : Singleton<InputManager>
             if (Input.GetButtonDown("Cast Spell"))
             {
                 SpellManager.Instance.ClearInputList();
-                player.SwitchState(PlayerState.Combat);
+                // player.SwitchState(PlayerState.Combat);
             }
         }
 
@@ -246,14 +246,14 @@ public class InputManager : Singleton<InputManager>
         else
             print("There is no others gun.");
     }
-    public static float GetVerInput()
-    {
-        return Input.GetAxis("Vertical");
-    }
-    public static float GetHorInput()
-    {
-        return Input.GetAxis("Horizontal");
-    }
+    // public static float GetVerInput()
+    // {
+    //     return Input.GetAxis("Vertical");
+    // }
+    // public static float GetHorInput()
+    // {
+    //     return Input.GetAxis("Horizontal");
+    // }
     public float GetMousePosition(Transform player, Vector3 mousePos)
     {
         Vector3 dif = mousePos - player.position;

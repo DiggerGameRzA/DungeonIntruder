@@ -1,21 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using Player;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] PlayerObject player;
-    [SerializeField] Stats stats;
+    PlayerObject player;
+    Stats stats;
     // CharacterController controller;
-    [SerializeField] Rigidbody2D rb;
-    [SerializeField] Transform transform;
+    Rigidbody rb;
     public PlayerMovement(PlayerObject player)
     {
         this.player = player;
         // controller = player.GetController();
         rb = player.GetRigidBody();
-        transform = player.GetTransform();
         stats = player.GetStats();
     }
 
@@ -23,14 +22,46 @@ public class PlayerMovement : MonoBehaviour
     {
         this.player = player;
         rb = player.GetRigidBody();
-        transform = player.GetTransform();
         stats = player.GetStats();
     }
-    public void Run(Vector2 dir)
+    void Start()
+    {
+        player = GetComponent<PlayerObject>();
+        if (player == null)
+        {
+            return;
+        }
+
+        rb = player.GetRigidBody();
+        stats = player.GetStats();
+    }
+    void FixedUpdate()
+    {
+        if (player.isLocalPlayer)
+        {
+            Run(GetMovementDir());
+        }
+        // if (InputManager.Instance.canMove)
+        // {
+            // if (movement == null)
+            // {
+            //     movement = gameObject.AddComponent<PlayerMovement>();
+            //     movement.SetInfos(this);
+            // }
+
+            // data.direction.Normalize();
+            // rb.velocity = data.direction.normalized * GetTrueMoveSpeed();
+        // }
+
+        // if (isLoaded)
+        //     hand.mouseRotZ = InputManager.Instance.GetMousePosition(transform, data.mousePos);
+    }
+    public void Run(Vector3 dir)
     {
         // rb.velocity = GetMovementDir().normalized * player.GetTrueMoveSpeed();
-        if (dir != Vector2.zero)
-            rb.velocity = dir.normalized * player.GetTrueMoveSpeed();
+        // if (dir != Vector3.zero)
+        //     rb.velocity = dir.normalized * player.GetTrueMoveSpeed();
+        rb.AddForce(dir.normalized * player.GetTrueMoveSpeed(), ForceMode.Force);
     }
 
     public void StopRun()
@@ -39,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public IEnumerator Evade()
     {
-        if (GetMovementDir().normalized != Vector2.zero)
+        if (GetMovementDir().normalized != Vector3.zero)
         {
             player.SwitchState(PlayerState.Evading);
             InputManager.Instance.tempEvadeTime = stats.evadeCooldown;
@@ -54,11 +85,16 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-    public Vector2 GetMovementDir()
+    public Vector3 GetMovementDir()
     {
-        Vector2 right = Vector2.right;
-        Vector2 up = Vector2.up;
-        Vector2 dir = right * InputManager.GetHorInput() + up * InputManager.GetVerInput();
+        Vector3 right = Vector3.right;
+        Vector3 forward = Vector3.forward;
+
+        float _hor = Input.GetAxis("Horizontal");
+        float _ver = Input.GetAxis("Vertical");
+        // Debug.Log($"{_hor}, {_ver}");
+
+        Vector3 dir = right * _hor + forward * _ver;
         return dir;
     }
 }

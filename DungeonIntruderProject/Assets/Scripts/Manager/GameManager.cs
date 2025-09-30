@@ -5,7 +5,7 @@ using Mirror;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : NetworkBehaviour
+public class GameManager : MonoBehaviour
 {
     private static GameManager instance = null;
 
@@ -21,9 +21,9 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-    [Command(requiresAuthority = false)]
-    public void CmdSetSpawnPos(NetworkConnectionToClient sender = null)
-    {
-        sender.identity.gameObject.transform.position = new Vector3(-4 + sender.identity.netId, 1, 0);
-    }
+    // [Command(requiresAuthority = false)]
+    // public void CmdSetSpawnPos(NetworkConnectionToClient sender = null)
+    // {
+    //     sender.identity.gameObject.transform.position = new Vector3(-4 + sender.identity.netId, 1, 0);
+    // }
 }
