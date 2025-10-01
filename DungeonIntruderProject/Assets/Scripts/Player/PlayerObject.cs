@@ -10,7 +10,6 @@ namespace Player
     [RequireComponent(typeof(Stats))]
     public class PlayerObject : NetworkBehaviour
     {
-        // CharacterController controller;
         [SerializeField] private NetworkIdentity networkIdentity;
         private Rigidbody rb;
         [SerializeField] private Collider2D col;
@@ -22,8 +21,6 @@ namespace Player
         public Transform bulletPos;
 
         public ParticleSystem healParticle;
-
-        // public NetworkObject networkObject;
 
         private RewardObject rewardObj = null;
         private PortalObject portalObj = null;
@@ -40,7 +37,6 @@ namespace Player
         public override void OnStartLocalPlayer()
         {
             base.OnStartLocalPlayer();
-            Debug.Log("Start!!!");
             networkIdentity = GetComponent<NetworkIdentity>();
             transform.position = new Vector3(-4 + networkIdentity.netId, 0, 0);
 
@@ -143,11 +139,6 @@ namespace Player
             yield return new WaitForSeconds(delay);
             State = state;
         }
-
-        // public CharacterController GetController()
-        // {
-        //     return controller;
-        // }
 
         public Rigidbody GetRigidBody()
         {

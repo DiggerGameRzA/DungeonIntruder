@@ -6,24 +6,9 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    PlayerObject player;
-    Stats stats;
-    // CharacterController controller;
-    Rigidbody rb;
-    public PlayerMovement(PlayerObject player)
-    {
-        this.player = player;
-        // controller = player.GetController();
-        rb = player.GetRigidBody();
-        stats = player.GetStats();
-    }
-
-    public void SetInfos(PlayerObject player)
-    {
-        this.player = player;
-        rb = player.GetRigidBody();
-        stats = player.GetStats();
-    }
+    private PlayerObject player;
+    private Stats stats;
+    private Rigidbody rb;
     void Start()
     {
         player = GetComponent<PlayerObject>();
@@ -35,33 +20,41 @@ public class PlayerMovement : MonoBehaviour
         rb = player.GetRigidBody();
         stats = player.GetStats();
     }
+    void Update()
+    {
+        if (player.isLocalPlayer)
+        {
+            LookAtMouse();
+        }
+    }
     void FixedUpdate()
     {
         if (player.isLocalPlayer)
         {
-            Run(GetMovementDir());
+            Run();
         }
         // if (InputManager.Instance.canMove)
         // {
-            // if (movement == null)
-            // {
-            //     movement = gameObject.AddComponent<PlayerMovement>();
-            //     movement.SetInfos(this);
-            // }
+        // if (movement == null)
+        // {
+        //     movement = gameObject.AddComponent<PlayerMovement>();
+        //     movement.SetInfos(this);
+        // }
 
-            // data.direction.Normalize();
-            // rb.velocity = data.direction.normalized * GetTrueMoveSpeed();
+        // data.direction.Normalize();
+        // rb.velocity = data.direction.normalized * GetTrueMoveSpeed();
         // }
 
         // if (isLoaded)
         //     hand.mouseRotZ = InputManager.Instance.GetMousePosition(transform, data.mousePos);
     }
-    public void Run(Vector3 dir)
+    private void Run()
     {
-        // rb.velocity = GetMovementDir().normalized * player.GetTrueMoveSpeed();
-        // if (dir != Vector3.zero)
-        //     rb.velocity = dir.normalized * player.GetTrueMoveSpeed();
-        rb.AddForce(dir.normalized * player.GetTrueMoveSpeed(), ForceMode.Force);
+        rb.AddForce(GetMovementDir().normalized * player.GetTrueMoveSpeed(), ForceMode.Force);
+    }
+    private void LookAtMouse()
+    {
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, GetMouseDir(), 0), 1);
     }
 
     public void StopRun()
@@ -79,7 +72,6 @@ public class PlayerMovement : MonoBehaviour
 
             while (stats.evadeDistance > Vector3.Distance(startPos, transform.position))
             {
-                // controller.Move(GetMovementDir().normalized * stats.evadeSpeed * Time.deltaTime);
                 rb.velocity = GetMovementDir().normalized * stats.evadeSpeed;
                 yield return null;
             }
@@ -92,9 +84,18 @@ public class PlayerMovement : MonoBehaviour
 
         float _hor = Input.GetAxis("Horizontal");
         float _ver = Input.GetAxis("Vertical");
-        // Debug.Log($"{_hor}, {_ver}");
 
         Vector3 dir = right * _hor + forward * _ver;
         return dir;
+    }
+    public float GetMouseDir()
+    {
+        Vector3 mousePos = Input.mousePosition;
+        Vector2 halfScreen = new Vector2(Screen.width / 2.0f, Screen.height / 2.0f);
+        Vector2 mouseCenter = new Vector2(mousePos.x - halfScreen.x, mousePos.y - halfScreen.y);
+        Vector3 mouseNormalize = new Vector3(mouseCenter.x, 0, mouseCenter.y).normalized;
+
+        float mouseRotZ = Mathf.Atan2(mouseNormalize.x, mouseNormalize.z) * Mathf.Rad2Deg;
+        return mouseRotZ;
     }
 }
