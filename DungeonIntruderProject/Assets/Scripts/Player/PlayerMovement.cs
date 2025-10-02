@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
     private PlayerObject player;
     private Stats stats;
     private Rigidbody rb;
+    [SerializeField] private bool canMove;
+    [SerializeField] private bool canRotate;
     void Start()
     {
         player = GetComponent<PlayerObject>();
@@ -22,16 +24,21 @@ public class PlayerMovement : MonoBehaviour
     }
     void Update()
     {
-        if (player.isLocalPlayer)
-        {
-            LookAtMouse();
-        }
+        
     }
     void FixedUpdate()
     {
         if (player.isLocalPlayer)
         {
-            Run();
+            if (canMove)
+            {
+                Run();
+            }
+
+            if (canRotate)
+            {
+                LookAtMouse();
+            }
         }
         // if (InputManager.Instance.canMove)
         // {
@@ -54,7 +61,12 @@ public class PlayerMovement : MonoBehaviour
     }
     private void LookAtMouse()
     {
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, GetMouseDir(), 0), 1);
+        Quaternion mouseRot = Quaternion.Euler(transform.rotation.x, GetMouseDir(), transform.rotation.z);
+        if (transform.rotation == mouseRot)
+        {
+            return;
+        }
+        rb.MoveRotation(mouseRot);
     }
 
     public void StopRun()
