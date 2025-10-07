@@ -1879,7 +1879,8 @@ MonoBehaviour:
     type: 3}
   autoCreatePlayer: 1
   playerSpawnMethod: 1
-  spawnPrefabs: []
+  spawnPrefabs:
+  - {fileID: 6124446143559813545, guid: df1870c6e0d36a24f8d8cb15f35dfa88, type: 3}
   exceptionsDisconnect: 1
   snapshotSettings:
     bufferTimeMultiplier: 2
@@ -1896,6 +1897,7 @@ MonoBehaviour:
   evaluationInterval: 3
   timeInterpolationGui: 0
   listOfNetworkIden: []
+  hostPlayer: {fileID: 0}
   relayJoinCode: 
 --- !u!114 &1207949262
 MonoBehaviour:

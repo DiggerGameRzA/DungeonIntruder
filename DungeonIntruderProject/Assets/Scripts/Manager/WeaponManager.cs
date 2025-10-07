@@ -93,18 +93,18 @@ public class WeaponManager : Singleton<WeaponManager>
         if (player == null)
             return;
         
-        Transform guns = player.gunPos;
-        SpriteRenderer gunSprite = guns.GetComponent<SpriteRenderer>();
-        if (gun != null)
-        {
-            gunSprite.enabled = true;
-            gunSprite.sprite = gun.Sprite.sprite;
-            gunSprite.color = gun.Sprite.color;
-        }
-        else
-        {
-            gunSprite.enabled = false;
-        }
+        // Transform guns = player.gunPos;
+        // SpriteRenderer gunSprite = guns.GetComponent<SpriteRenderer>();
+        // if (gun != null)
+        // {
+        //     gunSprite.enabled = true;
+        //     gunSprite.sprite = gun.Sprite.sprite;
+        //     gunSprite.color = gun.Sprite.color;
+        // }
+        // else
+        // {
+        //     gunSprite.enabled = false;
+        // }
     }
     public void DropGun()
     {

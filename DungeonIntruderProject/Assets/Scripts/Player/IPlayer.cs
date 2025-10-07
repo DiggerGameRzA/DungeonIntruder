@@ -7,7 +7,7 @@ public interface IPlayer
     CharacterController GetController();
     Transform GetTransform();
     Stats GetStats();
-    PlayerMovement GetMovement();
+    // PlayerMovement GetMovement();
     void FlipPlayerSprite(bool flip);
     bool isEvade { get; set; }
 }

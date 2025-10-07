@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &320272980267620925
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4212523038997937885}
+  m_Layer: 0
+  m_Name: transform - bullet pos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4212523038997937885
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 320272980267620925}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8579597089077131318}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2298739813169293564
 GameObject:
   m_ObjectHideFlags: 0
@@ -33,6 +64,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8385226769137901962}
+  - {fileID: 4212523038997937885}
   m_Father: {fileID: 1603852963970230948}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2537955851347684085
@@ -123,6 +155,7 @@ GameObject:
   - component: {fileID: 2555204225009911895}
   - component: {fileID: 7994824654337615148}
   - component: {fileID: 6018155223731156108}
+  - component: {fileID: 6603687394476331221}
   m_Layer: 0
   m_Name: prefab - Player
   m_TagString: Untagged
@@ -273,11 +306,10 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   networkIdentity: {fileID: 0}
-  col: {fileID: 0}
+  prefabBullet: {fileID: 6124446143559813545, guid: df1870c6e0d36a24f8d8cb15f35dfa88,
+    type: 3}
+  bulletPos: {fileID: 4212523038997937885}
   State: 0
-  hand: {fileID: 0}
-  gunPos: {fileID: 0}
-  bulletPos: {fileID: 0}
   healParticle: {fileID: 0}
 --- !u!114 &6018155223731156108
 MonoBehaviour:
@@ -293,6 +325,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canMove: 1
   canRotate: 1
+  meshRenderer: {fileID: 2162357915446726063}
+  redMaterial: {fileID: 2100000, guid: e17c25fdaa048d640a1fd5c082f0b852, type: 2}
+--- !u!114 &6603687394476331221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6048565477395736088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d7a72aa7058c0e4f94a6149385e9d43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6475906663741986405
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,22 +3,27 @@ using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using Mirror;
+using Unity.Mathematics;
 using UnityEngine;
+using Utp;
 
 namespace Player
 {
     [RequireComponent(typeof(Stats))]
     public class PlayerObject : NetworkBehaviour
     {
+        private RelayNetworkManager relayNetworkManager;
+        public SyncList<NetworkIdentity> activePlayers = new SyncList<NetworkIdentity>();
+        [SerializeField] private readonly List<NetworkIdentity> localPlayers = new List<NetworkIdentity>();
         [SerializeField] private NetworkIdentity networkIdentity;
         private Rigidbody rb;
-        [SerializeField] private Collider2D col;
+        [SerializeField] private GameObject prefabBullet;
+        [SerializeField] public Transform bulletPos;
+
+        private Collider2D col;
         public PlayerState State;
-        private PlayerMovement movement;
+        // private PlayerMovement movement;
         Stats stats;
-        [SerializeField] private Hand hand;
-        public Transform gunPos;
-        public Transform bulletPos;
 
         public ParticleSystem healParticle;
 
@@ -32,20 +37,84 @@ namespace Player
             rb = GetComponent<Rigidbody>();
             stats = GetComponent<Stats>();
             State = PlayerState.Combat;
+            relayNetworkManager = NetworkManager.singleton.GetComponent<RelayNetworkManager>();
         }
 
+        #region Start
         public override void OnStartLocalPlayer()
         {
             base.OnStartLocalPlayer();
-            networkIdentity = GetComponent<NetworkIdentity>();
-            transform.position = new Vector3(-4 + networkIdentity.netId, 0, 0);
 
+            relayNetworkManager = NetworkManager.singleton.GetComponent<RelayNetworkManager>();
             CameraCtrl cameraCtrl = FindObjectOfType<CameraCtrl>();
             if (cameraCtrl != null)
             {
                 cameraCtrl.AddTargetPlayer(this.transform);
             }
         }
+        public override void OnStartServer()
+        {
+            base.OnStartServer();
+            activePlayers.Callback += OnActivePlayersChanged;
+        }
+        public override void OnStartClient()
+        {
+            rb = GetComponent<Rigidbody>();
+            rb.Sleep();
+            transform.position = new Vector3(-4 + netId, 0, 0);
+            Debug.Log("Client started — registering SyncList callback");
+            activePlayers.Callback += OnActivePlayersChanged;
+        }
+
+        public override void OnStopClient()
+        {
+            activePlayers.Callback -= OnActivePlayersChanged;
+        }
+
+        private void OnActivePlayersChanged(SyncList<NetworkIdentity>.Operation op, int index, NetworkIdentity oldItem, NetworkIdentity newItem)
+        {
+            switch (op)
+            {
+                case SyncList<NetworkIdentity>.Operation.OP_ADD:
+                    localPlayers.Add(newItem);
+                    Debug.Log($"Player added: {newItem?.name}");
+                    break;
+
+                case SyncList<NetworkIdentity>.Operation.OP_REMOVEAT:
+                    localPlayers.Remove(oldItem);
+                    Debug.Log($"Player removed: {oldItem?.name}");
+                    break;
+
+                case SyncList<NetworkIdentity>.Operation.OP_SET:
+                    localPlayers.Remove(oldItem);
+                    localPlayers.Add(newItem);
+                    Debug.Log($"Player replaced: {oldItem?.name} → {newItem?.name}");
+                    break;
+
+                case SyncList<NetworkIdentity>.Operation.OP_CLEAR:
+                    localPlayers.Clear();
+                    Debug.Log("All players cleared");
+                    break;
+            }
+        }
+
+        [Server]
+        public void ServerAddPlayer(NetworkIdentity player)
+        {
+            if (!activePlayers.Contains(player))
+            {
+                activePlayers.Add(player);
+            }
+        }
+        [Server]
+        public void ServerRemovePlayer(NetworkIdentity player)
+        {
+            if (activePlayers.Contains(player))
+            {
+                activePlayers.Remove(player);
+            }
+        }
+        #endregion
 
         // IEnumerator WaitForGameStart()
         // {
@@ -104,6 +173,86 @@ namespace Player
             // }
         }
 
+        public void Fire()
+        {
+            // Debug.Log(this.gameObject.name);
+            // Debug.Log("-----");
+            // Debug.Log($"is server: {isServer}");
+            // Debug.Log($"is client: {isClient}");
+            // Debug.Log($"is local player: {isLocalPlayer}");
+            // Debug.Log($"is owned: {isOwned}");
+            // Debug.Log($"auth: {authority}");
+            if (isServer)
+            {
+                RpcFire(netId);
+            }
+            else if (isClient)
+            {
+                CmdFire(netId);
+                LocalFire();
+            }
+        }
+        #region Network Methods
+        [Command]
+        private void CmdFire(uint _netId)
+        {
+            Debug.Log("Fire from Client");
+            Debug.Log($"Sender: {_netId}");
+
+            NetworkIdentity targetIden = null;
+            if (isServer)
+            {
+                targetIden = relayNetworkManager.GetPlayerByNetworkIden(_netId);
+            }
+            else if (isClient)
+            {
+                targetIden = GetPlayerByNetworkIden(_netId);
+            }
+            PlayerObject targetPlayer = targetIden.GetComponent<PlayerObject>();
+            GameObject go = Instantiate(targetPlayer.prefabBullet, targetPlayer.bulletPos.position, targetPlayer.bulletPos.rotation);
+
+            go.GetComponent<Rigidbody>().velocity = targetPlayer.bulletPos.forward * 50f;
+        }
+        [ClientRpc]
+        private void RpcFire(uint _netId)
+        {
+            Debug.Log("Fire from Server");
+            Debug.Log($"Sender: {_netId}");
+
+            NetworkIdentity targetIden = null;
+            if (isServer)
+            {
+                targetIden = relayNetworkManager.GetPlayerByNetworkIden(_netId);
+            }
+            else if (isClient)
+            {
+                targetIden = GetPlayerByNetworkIden(_netId);
+            }
+            PlayerObject targetPlayer = targetIden.GetComponent<PlayerObject>();
+            GameObject go = Instantiate(targetPlayer.prefabBullet, targetPlayer.bulletPos.position, targetPlayer.bulletPos.rotation);
+
+            go.GetComponent<Rigidbody>().velocity = targetPlayer.bulletPos.forward * 50f;
+        }
+        private void LocalFire()
+        {
+            GameObject go = Instantiate(prefabBullet, bulletPos.position, bulletPos.rotation);
+
+            go.GetComponent<Rigidbody>().velocity = bulletPos.forward * 50f;
+        }
+        #endregion
+
+        private NetworkIdentity GetPlayerByNetworkIden(uint _netId)
+        {
+            foreach (var player in activePlayers)
+            {
+                if (player.netId == _netId)
+                {
+                    return player;
+                }
+            }
+            return null;
+        }
+
         private void OnTriggerEnter2D(Collider2D col)
         {
             if (col.CompareTag("Item"))
@@ -155,10 +304,10 @@ namespace Player
             return stats;
         }
 
-        public PlayerMovement GetMovement()
-        {
-            return movement;
-        }
+        // public PlayerMovement GetMovement()
+        // {
+        //     return movement;
+        // }
 
         public void FlipPlayerSprite(bool flip)
         {
@@ -247,4 +396,5 @@ namespace Player
         Evading,
         Casting
     }
+
 }
