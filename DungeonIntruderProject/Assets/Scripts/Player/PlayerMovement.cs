@@ -35,7 +35,7 @@ namespace Player
         }
         void FixedUpdate()
         {
-            if (player.isLocalPlayer)
+            if (player.isLocalPlayer && Application.isFocused)
             {
                 if (canMove)
                 {
@@ -46,6 +46,10 @@ namespace Player
                 {
                     LookAtMouse();
                 }
+            }
+            if (!Application.isFocused)
+            {
+                rb.Sleep();
             }
             // if (InputManager.Instance.canMove)
             // {
