@@ -32,7 +32,7 @@ public class LobbyCtrl : MonoBehaviour
         () =>
         {
             groupLobby.SetActive(false);
-            ShowRoomCode();
+            textHostCode.text = $"Code = {inputCode.text.ToUpper()}";
         });
     }
     public void ShowRoomCode()

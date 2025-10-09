@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4212523038997937885}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: transform - bullet pos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 2537955851347684085}
   - component: {fileID: 2162357915446726063}
   - component: {fileID: 2711561933709202741}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: model - Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -156,7 +156,7 @@ GameObject:
   - component: {fileID: 7994824654337615148}
   - component: {fileID: 6018155223731156108}
   - component: {fileID: 6603687394476331221}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: prefab - Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -249,7 +249,7 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
@@ -351,7 +351,7 @@ GameObject:
   - component: {fileID: 8513871328335570498}
   - component: {fileID: 6517216972069447547}
   - component: {fileID: 4356661020023929063}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: model - gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -438,7 +438,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

@@ -28,10 +28,11 @@ public class Bullet : MonoBehaviour
             tempTime -= Time.deltaTime;
     }
 
-    private void OnTriggerEnter2D(Collider2D col)
+    void OnTriggerEnter(Collider col)
     {
-        if (isBeam)
-            return;
+        Debug.Log("Huh");
+        // if (isBeam)
+        //     return;
         if (col.CompareTag("StageObject"))
         {
             Destroy(gameObject);
@@ -40,31 +41,35 @@ public class Bullet : MonoBehaviour
         {
             if (col.CompareTag("Player") && col.isTrigger)
             {
-                float posX = Random.Range(-indicatorOffset.x, indicatorOffset.x);
-                float posY = Random.Range(-indicatorOffset.y, indicatorOffset.y);
-                Vector3 pos = new Vector3(posX, posY, 0);
-                GameObject dmgI = Instantiate(dmgIndicator, col.transform.position + pos, Quaternion.identity);
-                dmgI.GetComponent<TextMesh>().text = Mathf.RoundToInt(damage).ToString();
+                // float posX = Random.Range(-indicatorOffset.x, indicatorOffset.x);
+                // float posY = Random.Range(-indicatorOffset.y, indicatorOffset.y);
+                // Vector3 pos = new Vector3(posX, posY, 0);
+                // GameObject dmgI = Instantiate(dmgIndicator, col.transform.position + pos, Quaternion.identity);
+                // dmgI.GetComponent<TextMesh>().text = Mathf.RoundToInt(damage).ToString();
 
-                float dmgPos = dmgI.transform.position.y;
-                dmgI.transform.DOLocalMoveY(dmgPos + 1f, 1f).SetEase(Ease.OutCubic);
+                // float dmgPos = dmgI.transform.position.y;
+                // dmgI.transform.DOLocalMoveY(dmgPos + 1f, 1f).SetEase(Ease.OutCubic);
 
-                Destroy(dmgI, 1f);
-                col.GetComponent<PlayerObject>().TakeDamage(damage);
-                Destroy(gameObject);
+                // Destroy(dmgI, 1f);
+                // col.GetComponent<PlayerObject>().TakeDamage(damage);
+                // Destroy(gameObject);
             }
         }
         else if (col.CompareTag("Enemy") && col.isTrigger)
         {
-            GunStats gun = WeaponManager.Instance.currentGun;
-            damage = gun.Damage + (gun.ModifierInfo.dmgPercentage / 100 * gun.Damage);
+            // GunStats gun = WeaponManager.Instance.currentGun;
+            // damage = gun.Damage + (gun.ModifierInfo.dmgPercentage / 100 * gun.Damage);
+            Debug.Log("Let's goooo");
+            damage = 5;
+            float randDmgPercent = Random.Range(0f, 0.5f);
+            damage = damage + (damage * randDmgPercent);
 
             float posX = Random.Range(-indicatorOffset.x, indicatorOffset.x);
             float posY = Random.Range(-indicatorOffset.y, indicatorOffset.y);
             Vector3 pos = new Vector3(posX, posY, 0);
             GameObject dmgI = Instantiate(dmgIndicator, col.transform.position + pos, Quaternion.identity);
             dmgI.GetComponent<TextMesh>().text = Mathf.RoundToInt(damage).ToString();
-            
+
             float dmgPos = dmgI.transform.position.y;
             dmgI.transform.DOLocalMoveY(dmgPos + 1f, 1f).SetEase(Ease.OutCubic);
 

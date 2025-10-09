@@ -124,8 +124,9 @@ MonoBehaviour:
   isBeam: 0
   isFromEnemy: 0
   damage: 5
-  dmgIndicator: {fileID: 0}
-  indicatorOffset: {x: 0, y: 0}
+  dmgIndicator: {fileID: 9156341747878459996, guid: 5e75d4a16bf74de468b6892498825c16,
+    type: 3}
+  indicatorOffset: {x: -0.5, y: 0.5}
 --- !u!114 &5892717016634502221
 MonoBehaviour:
   m_ObjectHideFlags: 0
